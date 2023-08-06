@@ -58,6 +58,7 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('/admin/delete_carrier/{id}','delete_carrier');
     Route::get('/admin/get_reservation_customers/{going_date}/{coming}','get_reservation_customers');
     Route::get('/admin/add_group','add_group');
+    Route::post('/admin/add_group','submit_add_group');
     Route::get('/admin/view_group','view_group');
     Route::get('/admin/edit_group','edit_group');
     Route::get('/admin/group_detail','group_detail');

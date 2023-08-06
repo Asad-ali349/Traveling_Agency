@@ -10,6 +10,6 @@ class group_members extends Model
     use HasFactory; 
     protected $table ='group_members';
     protected $fillable=[
-        'id', 'group_id', 'customer_id', 'created_at', 'updated_at'
+        'id', 'group_id', 'reservation_id', 'created_at', 'updated_at'
     ]; 
 }

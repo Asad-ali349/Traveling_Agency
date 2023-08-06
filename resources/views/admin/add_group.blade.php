@@ -40,7 +40,7 @@
                         <h5>Add Group:</h5>
                     </div>
                 <div class="card-body">
-                    <form class="needs-validation" novalidate="" method="POST" action="{{url('/add_investor')}}" enctype="multipart/form-data">
+                    <form class="needs-validation" novalidate="" method="POST" action="{{url('admin/add_group')}}" enctype="multipart/form-data">
                       @csrf
                         <div class="row g-3 mb-2">
                             <h6>Group Detail</h6>
@@ -160,6 +160,9 @@
           // Create table cells for the new row
           var checkbox = document.createElement("input");
           checkbox.type = "checkbox";
+          checkbox.name = "reservation_id[]";
+          checkbox.value = data.id;
+
 
           var checkCell = document.createElement("td");
           // checkCell.classList.add('m-2 p-2');

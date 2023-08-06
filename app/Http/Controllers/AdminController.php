@@ -39,6 +39,8 @@ use App\Models\transport_reservation;
 use App\Models\visa_reservation;
 use App\Models\payment_detail_for_reservation;
 use App\Models\extra_service_for_reservation;
+use App\Models\grouping;
+use App\Models\group_members;
 
 class AdminController extends Controller
 {
@@ -673,9 +675,47 @@ class AdminController extends Controller
     {
         return view('admin.add_group');
     }
+    public function submit_add_group(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'group_name'=>'required',
+            'going_date'=>'required',
+            'comming_date'=>'required',
+            'reservation_id'=>'required'
+            
+        ]);
+
+        if($validator->fails())
+        {
+            return redirect()->back()->with('error_msg', $validator->errors()->first());
+        }else{
+            $group_by=Auth::gaurd('admin')->user()->name;
+            $add_grouping=grouping::create([
+                'group_name'=>$req->group_name,
+                'going_date'=>$req->going_date,
+                'coming_date'=>$req->comming_date,
+                'group_by'=>$group_by,
+                'group_by_role'=>'Admin',
+            ]);
+            if($add_grouping){
+                foreach($req->reservation_id  as $reservation){
+
+                    $add_grouping_members=group_members::create([
+                        'group_id'=>$add_grouping->id,
+                        'reservation_id'=>$reservation,
+                    ]);
+                }
+                return redirect()->back()->with('success_msg', 'Group Added Successfully....');
+            }else{
+                return redirect()->back()->with('error_msg', 'Unable To add Group   ...');
+            }
+        }
+    }
     public function view_group()
     {
-        return view('admin.view_group');
+        $groups=grouping::with('members')->get();
+        dd($groups);
+        return view('admin.view_group',compact('groups'));
     }
     public function group_detail()
     {
