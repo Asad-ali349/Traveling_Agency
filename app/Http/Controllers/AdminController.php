@@ -664,7 +664,7 @@ class AdminController extends Controller
         }
     }
     public function get_reservation_customers($going_date,$coming_date) {
-        $reservation=reservation::with('customer')->where('going_date','>=',$going_date)->where('going_date','<=',$coming_date)->get();
+        $reservation=reservation::with(['customer.Collaborator','customer.LinkedWith','payment'])->where('going_date','>=',$going_date)->where('going_date','<=',$coming_date)->get();
 
         return $reservation;
     }

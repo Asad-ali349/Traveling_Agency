@@ -68,39 +68,16 @@
                                                 <tr>
                                                 <th></th>
                                                 <th class="m-2 p-2">Surname</th>
-                                                <th class="m-2 p-2">Name</th>
                                                 <th class="m-2 p-2">Gender</th>
                                                 <th class="m-2 p-2">Collaborator</th>
                                                 <th class="m-2 p-2">Linked to</th>
-                                                <th class="m-2 p-2">Services</th>
                                                 <th class="m-2 p-2">Service Type</th>
-                                                <th class="m-2 p-2">Length of Stay</th>
                                                 <th class="m-2 p-2">Total Price</th>
                                                 <th class="m-2 p-2">Rest</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                              <?php
-                                                $count=1;
-                                              ?>
-                                                
-                                                <tr style="text-align: center;">
-                                                <td class="m-2 p-2"><input type="checkbox"></td>
-                                                <td class="m-2 p-2">Ham</td>
-                                                <td class="m-2 p-2">Hammad</td>
-                                                <td class="m-2 p-2">Male</td>
-                                                <td class="m-2 p-2">Collab</td>
-                                                <td class="m-2 p-2">Link</td>
-                                                <td class="m-2 p-2">Service</td>
-                                                <td class="m-2 p-2">Type</td>
-                                                <td class="m-2 p-2">Length</td>
-                                                <td class="m-2 p-2">Price</td>
-                                                <td class="m-2 p-2">Rest</td>
-                                                </tr>
-                                                
-                                                <?php
-                                                  $count+=1;
-                                                ?>
+                                            <tbody id="customer_table">
+                                             
                                             </tbody>
                                       </table>
                                   </div>
@@ -160,20 +137,82 @@
     </script>
   
     <script>
-      function getCustomers(){
-        var going_date= $('#going_date').val()
-        var coming_date=$ ('#coming_date').val()
-        console.log({going_date,coming_date})
-        if(coming_date!="" && going_date!=""){
-          $.get(`get_reservation_customers/${going_date}/${coming_date}`).then((result)=>{
-            if(result!='' && result.length!=0){
-              console.log(result)
-            }else{
-              console.log('empty result')
-            }
-          })
-        }
+      function getCustomers() {
+  var going_date = $('#going_date').val();
+  var coming_date = $('#coming_date').val();
+  console.log({ going_date, coming_date });
+
+  if (coming_date !== "" && going_date !== "") {
+    $.get(`get_reservation_customers/${going_date}/${coming_date}`).then((result) => {
+      if (result !== '' && result.length !== 0) {
+        console.log(result);
+        var tableBody = document.getElementById("customer_table");
+
+        // Clear existing rows from the table body
+        tableBody.innerHTML = "";
+
+        var rows = [];
+
+        result.map((data) => {
+          console.log("new_row")
+          var new_row = document.createElement("tr");
+
+          // Create table cells for the new row
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+
+          var checkCell = document.createElement("td");
+          // checkCell.classList.add('m-2 p-2');
+          checkCell.appendChild(checkbox)
+
+          var nameCell = document.createElement("td");
+          nameCell.textContent = data.customer.first_name + " " + data.customer.last_name;
+
+          var genderCell = document.createElement("td");
+          genderCell.textContent = data.customer.gender;
+
+          var collaboratorCell = document.createElement("td");
+          collaboratorCell.textContent = data.customer.collaborator != null ? data.customer.collaborator.name : "No Collaborator";
+
+          var linkedCell = document.createElement("td");
+          linkedCell.textContent = data.customer.linked_with
+            ? data.customer.linked_with.first_name + " " + data.customer.linked_with.last_name
+            : "No Linked";
+
+          var serviceCell = document.createElement("td");
+          serviceCell.textContent = data.service_type;
+
+          var totalPriceCell = document.createElement("td");
+          totalPriceCell.textContent = data.payment.total_amount;
+
+          var restPriceCell = document.createElement("td");
+          restPriceCell.textContent = data.payment.rest_amount;
+
+          // Append cells to the new row
+          new_row.appendChild(checkCell);
+          new_row.appendChild(nameCell);
+          new_row.appendChild(genderCell);
+          new_row.appendChild(collaboratorCell);
+          new_row.appendChild(linkedCell);
+          new_row.appendChild(serviceCell);
+          new_row.appendChild(totalPriceCell);
+          new_row.appendChild(restPriceCell);
+         
+          rows.push(new_row);
+        });
+        console.log(rows)
+        // Append all rows to the table body
+        rows.forEach((row) => {
+          tableBody.appendChild(row);
+        });
+
+        console.log(rows);
+      } else {
+        console.log('empty result');
       }
+    });
+  }
+}
     </script>
       
 
