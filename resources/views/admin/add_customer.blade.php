@@ -74,7 +74,7 @@
                             
                             <div class="col-md-4">
                             <label class="form-label" for="">Phone</label>
-                            <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone" required="required" maxlength="11" minlength="10">
+                            <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone" required="required"  minlength="10">
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Date of Birth</label>
@@ -82,11 +82,11 @@
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">ID Card</label>
-                            <input class="form-control" id="cnic" name="cnic" type="text" placeholder="CNIC" required="required" >
+                            <input class="form-control" id="cnic" name="cnic" type="text" placeholder="CNIC"  >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Passport</label>
-                            <input class="form-control" id="passport" name="passport" type="text" placeholder="Passport" required="required" >
+                            <input class="form-control" id="passport" name="passport" type="text" placeholder="Passport"  >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Passport File</label>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Date of Issue</label>
-                            <input class="form-control" id="issue_date" name="issue_date" type="date" placeholder="Date of Issue" required="required" >
+                            <input class="form-control" id="issue_date" name="issue_date" type="date" placeholder="Date of Issue"  >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Nationality</label>
@@ -113,15 +113,15 @@
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Guardian Name</label>
-                            <input class="form-control" id="guardian_name" name="guardian_name" type="text" placeholder="Guardian Name" required="required" >
+                            <input class="form-control" id="guardian_name" name="guardian_name" type="text" placeholder="Guardian Name" >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Guardian Phone</label>
-                            <input class="form-control" id="guardian_phone" name="guardian_phone" type="text" placeholder="Guardian Phone" required="required" >
+                            <input class="form-control" id="guardian_phone" name="guardian_phone" type="text" placeholder="Guardian Phone" >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Relationship</label>
-                            <input class="form-control" id="relation" name="relation" type="text" placeholder="Relationship" required="required" >
+                            <input class="form-control" id="relation" name="relation" type="text" placeholder="Relationship" >
                             </div>
                             <div class="col-md-12">
                               <h6>Collaborator/Partner Details</h6>

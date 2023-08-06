@@ -95,7 +95,7 @@
                                        <td>{{$reservtion->service_type}}</td>
                                        <td>${{$reservtion->payment->total_amount}}</td>
                                        <td>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/customer_detail/')}}"><i class="fa fa-list"></i></a>
+                                          
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/'.$reservtion->id)}}"><i class="fa fa-edit"></i></a>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/'.$reservtion->id)}}"><i class="fa fa-trash"></i></a>
                                        </td>

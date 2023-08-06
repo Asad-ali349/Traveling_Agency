@@ -50,11 +50,12 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="">Going Date</label>
-                                <input class="form-control" name="going_date" type="date" placeholder="Going Date" required="required" >
+                                <input class="form-control" name="going_date" id="going_date" type="date" placeholder="Going Date" required="required" onchange="getCustomers()" >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Coming Date</label>
-                            <input class="form-control" name="comming_date" type="date" placeholder="Comming Date">
+                            <input class="form-control" name="comming_date" type="date" id="coming_date"
+                            onchange="getCustomers()" placeholder="Comming Date">
                             </div>
                             <hr>
                             <div class="col-md-12">
@@ -157,37 +158,23 @@
             $('#alert').hide('slow')
         }, 3000)
     </script>
+  
     <script>
-			var count=2;
-			function add_doc_row(){
-			    
-			    var additionalhtml='<div class="row mt-4" id="'+count+'">'+
-			                            '<div class="col-md-6">'+
-                                      '<label class="form-label" for="">Group Members</label>'+
-                                      '<select name="member_id[]" class="form-control" required>'+
-                                        '<option value="">Choose Group Members</option>'+
-                                        
-                                        '<option value="1">Hammad</option>'+
-                                        '<option value="1">Ali</option>'+
-                                       
-                                    '</select>'+
-			                            '</div>'+
-			                            '<div class="col-md-4">'+
-			                                 '<button type="button" class="btn btn-danger" onclick="remove_row('+count+')" style="margin-top:30px"><i class="fa fa-times" style="color: white;" aria-hidden="true"></i></button>'+
-			                            '</div>'+
-			                        '</div>';
-                                    
-			        $("#group_body").append(additionalhtml);
-                 count+=1
-			}
-			
-			function remove_row(id){
-			    $('#'+id).remove();
-			}
-			
-		</script>
-      
-
+      function getCustomers(){
+        var going_date= $('#going_date').val()
+        var coming_date=$ ('#coming_date').val()
+        console.log({going_date,coming_date})
+        if(coming_date!="" && going_date!=""){
+          $.get(`get_reservation_customers/${going_date}/${coming_date}`).then((result)=>{
+            if(result!='' && result.length!=0){
+              console.log(result)
+            }else{
+              console.log('empty result')
+            }
+          })
+        }
+      }
+    </script>
       
 
   </body>

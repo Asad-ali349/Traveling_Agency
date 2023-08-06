@@ -26,7 +26,7 @@
                   </ul>
                </li>
                <li class="sidebar-list">
-                  <a class="sidebar-link sidebar-title" href="#"><i class="fa fa-calendar-check-o" style='padding-right:12px;font-size:15px'></i><span>Reservation</span></a>
+                  <a class="sidebar-link sidebar-title" href="#"><i class="fa fa-calendar-check-o" style='padding-right:12px;font-size:15px'></i><span>Reservations</span></a>
                   <ul class="sidebar-submenu">
                      <li><a href="{{url('/admin/add_reservation')}}">Add Reservation</a></li>
                      <li><a href="{{url('/admin/view_reservations')}}">View Reservations</a></li>
@@ -44,7 +44,7 @@
                   <a class="sidebar-link " href="{{url('admin/partners')}}"><i data-feather="users"></i><span>Partners</span></a>
                </li>
                <li class="sidebar-list">
-               <a class="sidebar-link " href="{{url('admin/airline')}}"><i data-feather="send"></i><span>Air Company</span></a>
+               <a class="sidebar-link " href="{{url('admin/airline')}}"><i data-feather="send"></i><span>Air Companies</span></a>
                </li>
                
                

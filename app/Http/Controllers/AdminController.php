@@ -242,15 +242,9 @@ class AdminController extends Controller
             'gender'=>'required',
             'phone'=>'required',
             'dob'=>'required',
-            'cnic'=>'required',
-            'passport'=>'required',
-            'issue_date'=>'required',
             'nationality'=>'required',
             'city'=>'required',
-            'email'=>'required | email',
-            'guardian_name'=>'required',
-            'guardian_phone'=>'required',
-            'relation'=>'required',
+            
         ]);
 
         if($validator->fails())
@@ -669,6 +663,12 @@ class AdminController extends Controller
             return redirect()->back()->with('error_msg', ' This Carrier is Linked With other Customer');
         }
     }
+    public function get_reservation_customers($going_date,$coming_date) {
+        $reservation=reservation::with('customer')->where('going_date','>=',$going_date)->where('going_date','<=',$coming_date)->get();
+
+        return $reservation;
+    }
+
     public function add_group()
     {
         return view('admin.add_group');
@@ -765,6 +765,7 @@ class AdminController extends Controller
                         'customer_id'=>$req->customer,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
+                        'going_date'=>$req->from_package
                     ]);
                     if($reservation){
                         $reservation_service=package_reservation::create([
@@ -811,6 +812,7 @@ class AdminController extends Controller
                         'customer_id'=>$req->customer,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
+                        'going_date'=>$req->from_date_makkah
                     ]);
                     if($reservation){
                         $reservation_service=lodging_reservation::create([
@@ -856,6 +858,7 @@ class AdminController extends Controller
                         'customer_id'=>$req->customer,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
+                        'going_date'=>$req->from_visa
                     ]);
                     if($reservation){
                         $reservation_service=visa_reservation::create([
@@ -894,6 +897,7 @@ class AdminController extends Controller
                         'customer_id'=>$req->customer,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>0,
+                        'going_date'=>$req->flight_departure
                     ]);
                     if($reservation){
                         $reservation_service=flight_reservation::create([
@@ -1480,7 +1484,7 @@ class AdminController extends Controller
             ]);
             if($visa_service){
                 $visa_price_for_package=visa_price_for_package::create([
-                'visa_id'=>$visa_service->id,
+                'visa_service_id'=>$visa_service->id,
                 'adult_buying'=>$req->package_adult_buying,
                 'child_buying'=>$req->package_child_buying,
                 'infant_buying'=>$req->package_infant_buying,
@@ -1490,7 +1494,7 @@ class AdminController extends Controller
             ]);
             
             $visa_price_for_individual=visa_price_for_individual::create([
-                'visa_id'=>$visa_service->id,
+                'visa_service_id'=>$visa_service->id,
                 'adult_buying'=>$req->individual_adult_buying,
                 'child_buying'=>$req->individual_child_buying,
                 'infant_buying'=>$req->individual_infant_buying,
