@@ -77,19 +77,19 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    
+                                    @foreach($groups as $group)
                                     <tr>
-                                       <td>{{'Royal'}}</td>
-                                       <td>{{'20-2-2023'}}</td>
-                                       <td>{{'05-3-2023'}}</td>
-                                       <td>{{'Ali'}}</td>
+                                       <td>{{$group->group_name}}</td>
+                                       <td>{{$group->going_date}}</td>
+                                       <td>{{$group->coming_date}}</td>
+                                       <td>{{$group->group_by}}</td>
                                        <td>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/group_detail/')}}"><i class="fa fa-list"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_group/')}}"><i class="fa fa-edit"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('delete_group/')}}"><i class="fa fa-trash"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/group_detail/'.$group->id)}}"><i class="fa fa-list"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_group/'.$group->id)}}"><i class="fa fa-edit"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('admin/delete_group/'.$group->id)}}"><i class="fa fa-trash"></i></a>
                                        </td>
                                     </tr>
-                                    
+                                    @endforeach
                                  </tbody>
                               </table>
                               </div>

@@ -60,8 +60,10 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('/admin/add_group','add_group');
     Route::post('/admin/add_group','submit_add_group');
     Route::get('/admin/view_group','view_group');
-    Route::get('/admin/edit_group','edit_group');
-    Route::get('/admin/group_detail','group_detail');
+    Route::get('/admin/edit_group/{id}','edit_group');
+    Route::post('/admin/edit_group/','submit_edit_group');
+    Route::get('/admin/group_detail/{id}','group_detail');
+    Route::get('/admin/delete_group/{id}','delete_group');
     Route::get('/admin/add_package','add_package');
     Route::get('/admin/view_package','view_package');
     Route::get('/admin/add_reservation','add_reservation');

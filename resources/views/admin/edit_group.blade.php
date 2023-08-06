@@ -3,6 +3,7 @@
 <html lang="en">
   
 @include('admin/includes/head')
+<link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/vendors/datatables.css')}}">
   <body>
     <div class="loader-wrapper">
       <div class="loader-index"><span></span></div>
@@ -39,41 +40,61 @@
                         <h5>Edit Group:</h5>
                     </div>
                 <div class="card-body">
-                    <form class="needs-validation" novalidate="" method="POST" action="{{url('/add_investor')}}" enctype="multipart/form-data">
+                    <form class="needs-validation" novalidate="" method="POST" action="{{url('admin/edit_group')}}" enctype="multipart/form-data">
                       @csrf
                         <div class="row g-3 mb-2">
                             <h6>Group Detail</h6>
+                            <input class="form-control" id="" name="group_id" type="hidden" placeholder="Group Id" required="required" value="{{$group->id}}">
                             <div class="col-md-4">
                                 <label class="form-label" for="">Group Name</label>
-                                <input class="form-control" id="" name="hotel_name" type="text" placeholder="Group Name" required="required">
+                                <input class="form-control" id="" name="group_name" type="text" placeholder="Group Name" required="required" value="{{$group->group_name}}">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="">Going Date</label>
-                                <input class="form-control" name="going_date" type="date" placeholder="Going Date" required="required" >
+                                <input class="form-control" name="going_date" id="going_date" type="date" placeholder="Going Date" required="required" value="{{$group->going_date}}" onchange="getCustomers()" >
                             </div>
                             <div class="col-md-4">
                             <label class="form-label" for="">Coming Date</label>
-                            <input class="form-control" name="comming_date" type="date" placeholder="Comming Date">
+                            <input class="form-control" name="comming_date" type="date" id="coming_date" value="{{$group->coming_date}}" onchange="getCustomers()" placeholder="Comming Date">
                             </div>
                             <hr>
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between">
-                                    <h6>Group Member Detail</h6>
-                                    <button class="btn btn-primary " type="button" onclick="add_doc_row()"><i class="fa fa-plus" style="color: white;"> Add More Member</i></button>
+                                    <h6>Edit Group Members</h6>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="">Group Member</label>
-                                        <select name="member_id[]" class="form-control" required>
-                                            <option value="">Choose Group Member</option>
-                                            <option value="">Hammad</option>
-                                            <option value="">Ali</option>
-                                        </select>
-                                    </div>
-                                    
+                                <div class="table-responsive">
+                                  <table class="hover mt-4 col-md-8" id="example-style-51">
+                                            <thead style="background-color: #E5E5E5">
+                                                <tr>
+                                                <th></th>
+                                                <th class="m-2 p-2">Surname</th>
+                                                <th class="m-2 p-2">Gender</th>
+                                                <th class="m-2 p-2">Collaborator</th>
+                                                <th class="m-2 p-2">Linked to</th>
+                                                <th class="m-2 p-2">Service Type</th>
+                                                <th class="m-2 p-2">Total Price</th>
+                                                <th class="m-2 p-2">Rest</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="customer_table">
+                                              @foreach($group->members as $group_members)
+                                                <tr>
+                                                  <td><input type="checkbox" name="reservation_id[]" checked></td>
+                                                  <td class="m-2 p-2">{{$group_members->reservation->customer->first_name.''.$group_members->reservation->customer->last_name}}</td>
+                                                  <td class="m-2 p-2">{{$group_members->reservation->customer->gender}}</td>
+                                                  <td class="m-2 p-2">{{$group_members->reservation->customer->collaborator !=null ? $group_members->reservation->customer->collaborator->name :"No Collaborator"}}</td>
+                                                  <td class="m-2 p-2">{{$group_members->reservation->customer->LinkedWith !=null ? $group_members->reservation->customer->LinkedWith->first_name.' '.$group_members->reservation->customer->LinkedWith->last_name  :"No Linked"}}</td>
+                                                  <td class="m-2 p-2">{{$group_members->reservation->service_type}}</td>
+                                                  <td class="m-2 p-2">${{$group_members->reservation->payment->total_amount}}</td>
+                                                  <td class="m-2 p-2">${{$group_members->reservation->payment->rest_amount}}</td>
+                                                </tr>
+                                              @endforeach
+                                            </tbody>
+                                      </table>
+                                  </div>
                                 </div>
                                 <div id="group_body"></div>
-                                </div>
+                              </div>
                             <div class="col-md-12 mt-4">
                             <center><input name="submit" class="btn btn-primary mt-4" type="submit" value="Update Group"></center>
                             </div>
@@ -106,6 +127,8 @@
     <script src="{{asset('public/assets/js/config.js')}}"></script>
     <!-- Plugins JS start-->
     <script src="{{asset('public/assets/js/sidebar-menu.js')}}"></script>
+    <script src="{{asset('public/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+      <script src="{{asset('public/assets/js/datatable/datatables/datatable.custom.js')}}"></script>
     <script src="{{asset('public/assets/js/notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('public/assets/js/dashboard/default.js')}}"></script>
     <script src="{{asset('public/assets/js/typeahead-search/handlebars.js')}}"></script>
@@ -123,37 +146,93 @@
             $('#alert').hide('slow')
         }, 3000)
     </script>
+  
     <script>
-			var count=2;
-			function add_doc_row(){
-			    
-			    var additionalhtml='<div class="row mt-4" id="'+count+'">'+
-			                            '<div class="col-md-6">'+
-                                      '<label class="form-label" for="">Group Members</label>'+
-                                      '<select name="member_id[]" class="form-control" required>'+
-                                        '<option value="">Choose Group Members</option>'+
-                                        
-                                        '<option value="1">Hammad</option>'+
-                                        '<option value="1">Ali</option>'+
-                                       
-                                    '</select>'+
-			                            '</div>'+
-			                            '<div class="col-md-4">'+
-			                                 '<button type="button" class="btn btn-danger" onclick="remove_row('+count+')" style="margin-top:30px"><i class="fa fa-times" style="color: white;" aria-hidden="true"></i></button>'+
-			                            '</div>'+
-			                        '</div>';
-                                    
-			        $("#group_body").append(additionalhtml);
-                 count+=1
-			}
-			
-			function remove_row(id){
-			    $('#'+id).remove();
-			}
-			
-		</script>
-      
+      function getCustomers() {
+  var going_date = $('#going_date').val();
+  var coming_date = $('#coming_date').val();
+  console.log({ going_date, coming_date });
 
+  if (coming_date !== "" && going_date !== "") {
+    // change the url of api to deploye link
+    // replace traveling_2/traveling/ to live link
+    $.get(`/traveling_2/traveling/admin/get_reservation_customers/${going_date}/${coming_date}`).then((result) => {
+      if (result !== '' && result.length !== 0) {
+        console.log(result);
+        var tableBody = document.getElementById("customer_table");
+        var group_members = @json($group->members);
+
+        console.log(group_members);
+        // Clear existing rows from the table body
+        tableBody.innerHTML = "";
+
+        var rows = [];
+
+        result.map((data) => {
+          console.log("new_row")
+          var new_row = document.createElement("tr");
+
+          // Create table cells for the new row
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "reservation_id[]";
+          checkbox.value = data.id;
+          checkbox.checked = group_members.some(member => member.reservation_id === data.id);
+
+
+          var checkCell = document.createElement("td");
+          // checkCell.classList.add('m-2 p-2');
+          checkCell.appendChild(checkbox)
+
+          var nameCell = document.createElement("td");
+          nameCell.textContent = data.customer.first_name + " " + data.customer.last_name;
+
+          var genderCell = document.createElement("td");
+          genderCell.textContent = data.customer.gender;
+
+          var collaboratorCell = document.createElement("td");
+          collaboratorCell.textContent = data.customer.collaborator != null ? data.customer.collaborator.name : "No Collaborator";
+
+          var linkedCell = document.createElement("td");
+          linkedCell.textContent = data.customer.linked_with
+            ? data.customer.linked_with.first_name + " " + data.customer.linked_with.last_name
+            : "No Linked";
+
+          var serviceCell = document.createElement("td");
+          serviceCell.textContent = data.service_type;
+
+          var totalPriceCell = document.createElement("td");
+          totalPriceCell.textContent = "$"+data.payment.total_amount;
+
+          var restPriceCell = document.createElement("td");
+          restPriceCell.textContent = "$"+data.payment.rest_amount;
+
+          // Append cells to the new row
+          new_row.appendChild(checkCell);
+          new_row.appendChild(nameCell);
+          new_row.appendChild(genderCell);
+          new_row.appendChild(collaboratorCell);
+          new_row.appendChild(linkedCell);
+          new_row.appendChild(serviceCell);
+          new_row.appendChild(totalPriceCell);
+          new_row.appendChild(restPriceCell);
+         
+          rows.push(new_row);
+        });
+        console.log(rows)
+        // Append all rows to the table body
+        rows.forEach((row) => {
+          tableBody.appendChild(row);
+        });
+
+        console.log(rows);
+      } else {
+        console.log('empty result');
+      }
+    });
+  }
+}
+    </script>
       
 
   </body>

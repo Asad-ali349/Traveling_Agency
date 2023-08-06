@@ -10,6 +10,11 @@ class group_members extends Model
     use HasFactory; 
     protected $table ='group_members';
     protected $fillable=[
-        'id', 'group_id', 'reservation_id', 'created_at', 'updated_at'
-    ]; 
+        'id', 'grouping_id', 'reservation_id', 'created_at', 'updated_at'
+    ];
+
+    function reservation() {
+        return $this->belongsTo(reservation::class,'reservation_id');
+    }
+
 }

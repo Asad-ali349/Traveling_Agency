@@ -186,10 +186,10 @@
           serviceCell.textContent = data.service_type;
 
           var totalPriceCell = document.createElement("td");
-          totalPriceCell.textContent = data.payment.total_amount;
+          totalPriceCell.textContent = "$"+data.payment.total_amount;
 
           var restPriceCell = document.createElement("td");
-          restPriceCell.textContent = data.payment.rest_amount;
+          restPriceCell.textContent = "$"+data.payment.rest_amount;
 
           // Append cells to the new row
           new_row.appendChild(checkCell);

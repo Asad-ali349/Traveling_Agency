@@ -84,20 +84,20 @@
                                     @php 
                                     $count=1;
                                     @endphp
-                                    @foreach($reservations as $reservtion)
+                                    @foreach($reservations as $reservation)
                                     <tr>
-                                       <td>{{$count}}</td>
-                                       <td>{{date("d-M-Y", strtotime($reservtion->created_at));}}</td>
-                                       <td>{{$reservtion->customer->first_name.' '.$reservtion->customer->last_name}}</td>
-                                       <td>{{$reservtion->customer->LinkedWith!=null? $reservtion->customer->LinkedWith->first_name.' '.$reservtion->customer->LinkedWith->last_name : 'None'}}</td>
-                                       <td>{{$reservtion->customer->Collaborator?         $reservtion->customer->Collaborator->name : 'None'}}</td>
+                                       <td>{{$reservation->reservation_no}}</td>
+                                       <td>{{date("d-M-Y", strtotime($reservation->created_at));}}</td>
+                                       <td>{{$reservation->customer->first_name.' '.$reservation->customer->last_name}}</td>
+                                       <td>{{$reservation->customer->LinkedWith!=null? $reservation->customer->LinkedWith->first_name.' '.$reservation->customer->LinkedWith->last_name : 'None'}}</td>
+                                       <td>{{$reservation->customer->Collaborator?         $reservation->customer->Collaborator->name : 'None'}}</td>
                                        <td>{{'Normal'}}</td>
-                                       <td>{{$reservtion->service_type}}</td>
-                                       <td>${{$reservtion->payment->total_amount}}</td>
+                                       <td>{{$reservation->service_type}}</td>
+                                       <td>${{$reservation->payment->total_amount}}</td>
                                        <td>
                                           
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/'.$reservtion->id)}}"><i class="fa fa-edit"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/'.$reservtion->id)}}"><i class="fa fa-trash"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/'.$reservation->id)}}"><i class="fa fa-edit"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/'.$reservation->id)}}"><i class="fa fa-trash"></i></a>
                                        </td>
                                     </tr>
                                     @php 

@@ -689,7 +689,7 @@ class AdminController extends Controller
         {
             return redirect()->back()->with('error_msg', $validator->errors()->first());
         }else{
-            $group_by=Auth::gaurd('admin')->user()->name;
+            $group_by=Auth::guard('admin')->user()->name;
             $add_grouping=grouping::create([
                 'group_name'=>$req->group_name,
                 'going_date'=>$req->going_date,
@@ -701,7 +701,7 @@ class AdminController extends Controller
                 foreach($req->reservation_id  as $reservation){
 
                     $add_grouping_members=group_members::create([
-                        'group_id'=>$add_grouping->id,
+                        'grouping_id'=>$add_grouping->id,
                         'reservation_id'=>$reservation,
                     ]);
                 }
@@ -713,17 +713,70 @@ class AdminController extends Controller
     }
     public function view_group()
     {
-        $groups=grouping::with('members')->get();
-        dd($groups);
+        $groups=grouping::with('members')->orderBy('id', 'DESC')->get();
         return view('admin.view_group',compact('groups'));
     }
-    public function group_detail()
+    public function group_detail($id)
     {
-        return view('admin.group_detail');
+        $group=grouping::with('members.reservation.customer.Collaborator','members.reservation.customer.LinkedWith')->where('id',$id)->first();
+        return view('admin.group_detail',compact('group'));
     }
-    public function edit_group()
+    public function edit_group($id)
     {
-        return view('admin.edit_group');
+        $group=grouping::with('members.reservation.customer.Collaborator','members.reservation.customer.LinkedWith')->where('id',$id)->first();
+        // dd($group);
+        return view('admin.edit_group',compact('group'));
+    }
+    public function submit_edit_group(Request $req)
+    {
+        // dd($req);
+        $validator = Validator::make($req->all(),[
+            'group_id'=>'required',
+            'group_name'=>'required',
+            'going_date'=>'required',
+            'comming_date'=>'required',
+            'reservation_id'=>'required'
+            
+        ]);
+
+        if($validator->fails())
+        {
+            return redirect()->back()->with('error_msg', $validator->errors()->first());
+        }else{
+            $group_by=Auth::guard('admin')->user()->name;
+            $add_grouping=grouping::where('id',$req->group_id)->update([
+                'group_name'=>$req->group_name,
+                'going_date'=>$req->going_date,
+                'coming_date'=>$req->comming_date,
+                'group_by'=>$group_by,
+                'group_by_role'=>'Admin',
+            ]);
+            if($add_grouping){
+                $delete_group_members=group_members::where('grouping_id',$req->group_id)->delete();
+
+                foreach($req->reservation_id as $reservation){
+                    $add_grouping_members=group_members::create([
+                        'grouping_id'=>$req->group_id,
+                        'reservation_id'=>$reservation,
+                    ]);
+                }
+                return redirect()->back()->with('success_msg', 'Group Added Successfully....');
+            }else{
+                return redirect()->back()->with('error_msg', 'Unable To add Group   ...');
+            }
+        }
+    }
+    public function delete_group($id) {
+        try{
+            $group=grouping::where('id',$id)->delete();
+            if($group){
+                return redirect()->back()->with('success_msg', 'Group Deleted Successfully....');
+            }else{
+                return redirect()->back()->with('error_msg', 'Unable To delete Group...');
+            }
+        }catch(\Exception){
+            return redirect()->back()->with('error_msg', ' This Visa is Linked With something else');
+        }
     }
     public function add_package()
     {
@@ -782,6 +835,7 @@ class AdminController extends Controller
 
             $is_reservation_done=false;
             $reservation=null;
+            $reservation_no=date('dmyHis');
             if($req->service_name=="package"){
                 // dd("package");
                 $validator = Validator::make($req->all(),[
@@ -803,9 +857,10 @@ class AdminController extends Controller
                 else{
                     $reservation=reservation::create([
                         'customer_id'=>$req->customer,
+                        'reservation_no'=>$reservation_no,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
-                        'going_date'=>$req->from_package
+                        'going_date'=>$req->from_package,
                     ]);
                     if($reservation){
                         $reservation_service=package_reservation::create([
@@ -850,6 +905,7 @@ class AdminController extends Controller
                 else{
                     $reservation=reservation::create([
                         'customer_id'=>$req->customer,
+                        'reservation_no'=>$reservation_no,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
                         'going_date'=>$req->from_date_makkah
@@ -896,6 +952,7 @@ class AdminController extends Controller
                 else{
                     $reservation=reservation::create([
                         'customer_id'=>$req->customer,
+                        'reservation_no'=>$reservation_no,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
                         'going_date'=>$req->from_visa
@@ -935,6 +992,7 @@ class AdminController extends Controller
                 else{
                     $reservation=reservation::create([
                         'customer_id'=>$req->customer,
+                        'reservation_no'=>$reservation_no,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>0,
                         'going_date'=>$req->flight_departure
@@ -979,6 +1037,7 @@ class AdminController extends Controller
                 else{
                     $reservation=reservation::create([
                         'customer_id'=>$req->customer,
+                        'reservation_no'=>$reservation_no,
                         'service_type'=>$req->service_name,
                         'reservation_status'=>1,
                     ]);
@@ -1328,7 +1387,7 @@ class AdminController extends Controller
     }
     public function view_reservations()
     {
-        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package','lodging','visa','flight','transport','extra_service','payment'])->get();
+        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package','lodging','visa','flight','transport','extra_service','payment'])->orderBy('id', 'DESC')->get();
         // dd($reservations);
         return view('admin.view_reservations',compact('reservations'));
     }
@@ -1348,6 +1407,7 @@ class AdminController extends Controller
         
         return view('admin.edit_reservation',compact('visas','packages','tickets','lodging_madina','lodging_makkah','transports','extra_services','airlines','customers','reservation'));
     }
+    
     public function view_group_reservation()
     {
         return view('admin.view_group_reservation');

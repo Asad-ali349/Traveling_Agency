@@ -44,13 +44,13 @@
                       @csrf
                       <div class="row g-3 mb-2">
                         <div class="col-md-4">
-                          <p><b>Group Name:</b> Royal</p>
+                          <p><b>Group Name:</b> {{$group->group_name}}</p>
                         </div>
                         <div class="col-md-4">
-                            <p><b>Going Date:</b> 20-2-2023</p>
+                            <p><b>Going Date:</b> {{$group->going_date}}</p>
                         </div>
                         <div class="col-md-4">
-                            <p><b>Coming Date:</b> 05-3-2023</p>
+                            <p><b>Coming Date:</b> {{$group->coming_date}}</p>
                         </div>
                         
                       </div>
@@ -70,30 +70,33 @@
                                     <div class="table-responsive">
                                         <table class="hover" id="example-style-5">
                                             <thead style="background-color: #E5E5E5">
-                                                <tr>
-                                                <th>Member Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                              <tr>
+                                                <th>Reservation No</th>
+                                                <th>Reservation Date</th>
+                                                <th>Customer Name</th>
+                                                <th>Linked To</th>
+                                                <th>Collaborator</th>
+                                                <th>Service Name</th>
+                                                <th>Service Price</th>
                                                 <th>Actions</th>
-                                                </tr>
+                                              </tr>
                                             </thead>
                                             <tbody>
-                                              <?php
-                                                $count=1;
-                                              ?>
-                                                
-                                                <tr>
-                                                <td>{{'Hammad'}}</td>
-                                                <td>{{'hammad@gmail.com'}}</td>
-                                                <td>{{'055465454'}}</td>
-                                                <td >
-                                                    <a class="btn btn-outline-primary btn-xs" href="#"><i class="fa fa-list"></i></a>
+                                              @foreach($group->members as $member)
+                                              <tr>
+                                                <td>{{$member->reservation->reservation_no}}</td>
+                                                <td>{{$member->reservation->created_at}}</td>
+                                                <td><a href="{{url('/admin/customer_detail/'.$member->reservation->customer->id)}}" target="_blank">{{$member->reservation->customer->first_name.''.$member->reservation->last_name}}</a></td>
+                                                <td>{{$member->reservation->customer->LinkedWith!=null?$member->reservation->customer->LinkedWith->first_name.''.$member->reservation->customer->LinkedWith->last_name:'No Linked'}}</td>
+                                                <td>{{$member->reservation->customer->Collaborator!=null?$member->reservation->customer->Collaborator->name:'No Collaborator'}}</td>
+                                                <td>{{$member->reservation->service_type}}</td>
+                                                <td>${{$member->reservation->payment->total_amount}}</td>
+                                                <td>
+                                                  <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/'.$member->reservation_id)}}" target="_blank"><i class="fa fa-list"></i></a>
                                                 </td>
-                                                </tr>
-                                    
-                                                <?php
-                                                  $count+=1;
-                                                ?>
+
+                                              </tr>
+                                              @endforeach
                                             </tbody>
                                         </table>
                                         </div>
