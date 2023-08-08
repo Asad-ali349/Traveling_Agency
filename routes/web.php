@@ -110,7 +110,10 @@ Route::controller(AdminController::class)->group(function (){
     Route::post('/admin/edit_extra_services/','submit_edit_extra_services');
     Route::get('/admin/delete_extra_services/{id}','delete_extra_services');
     Route::get('/admin/add_ticket','add_ticket');
+    Route::post('/admin/add_ticket','submit_add_ticket');
     Route::get('/admin/view_ticking_history','view_ticking_history');
+    Route::get('/admin/edit_ticketing/{id}/{is_group}','edit_ticketing');
+    Route::post('/admin/edit_ticketing/','submit_edit_ticketing');
     Route::get('/admin/view_lodging','view_lodging');
     Route::get('/admin/view_visa','view_visa');
     Route::get('/admin/view_transport','view_transport');

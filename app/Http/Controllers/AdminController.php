@@ -41,6 +41,8 @@ use App\Models\payment_detail_for_reservation;
 use App\Models\extra_service_for_reservation;
 use App\Models\grouping;
 use App\Models\group_members;
+use App\Models\group_ticketing;
+use App\Models\individual_ticketing;
 
 class AdminController extends Controller
 {
@@ -753,8 +755,9 @@ class AdminController extends Controller
             ]);
             if($add_grouping){
                 $delete_group_members=group_members::where('grouping_id',$req->group_id)->delete();
-
+                
                 foreach($req->reservation_id as $reservation){
+                    
                     $add_grouping_members=group_members::create([
                         'grouping_id'=>$req->group_id,
                         'reservation_id'=>$reservation,
@@ -1381,9 +1384,83 @@ class AdminController extends Controller
         }
         // return view('admin.view_ticking_history');
     }
+    public function edit_ticketing($id,$is_group) {
+        // dd($is_group == "group");
+        $ticketing=null;
+
+        if ($is_group == "group") {
+            // dd('aaa');
+            $ticketing = group_ticketing::with([
+                'grouping.members.reservation.flight.air_company',
+                'grouping.members.reservation.customer'
+            ])
+            ->where('id', $id)
+            ->first();
+            // dd($ticketing);
+        } else if ($is_group == 'individual') {
+            $ticketing = individual_ticketing::with('reservation.flight.air_company', 'reservation.flight')->where('id', $id)->first();
+        }
+        // dd($ticketing);
+        return view('admin.edit_ticketing',compact('ticketing','is_group'));
+    }
+    public function submit_edit_ticketing(Request $req){
+        // dd($req);
+        
+        if($req->is_group=='group'){
+            foreach ($req->ticket_type as $key => $value) {
+                $reservation_id=$req->reservation_id[$key];
+    
+                $ticket_type=$req->ticket_type[$key];
+                $fee_amount=$req->fee_amount[$key];
+                $purchase_amount=$req->purchase_amount[$key];
+                $selling_amount=$req->selling_amount[$key];
+    
+                $update_reservation= flight_reservation::where('reservation_id',$reservation_id)->update([
+                    'selling_price'=>$selling_amount,
+                    'purchased_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                ]);
+                $add_reservation= group_ticketing::where('grouping_id',$req->group_id)->update([
+                    'grouping_id'=>$req->group_id,
+                    'selling_price'=>$selling_amount,
+                    'buying_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                    'ticketing_type'=>$ticket_type,
+                ]);
+            }
+        }else if($req->is_group=='individual'){
+            foreach ($req->ticket_type as $key => $value) {
+                $reservation_id=$req->reservation_id[$key];
+    
+                $ticket_type=$req->ticket_type[$key];
+                $fee_amount=$req->fee_amount[$key];
+                $purchase_amount=$req->purchase_amount[$key];
+                $selling_amount=$req->selling_amount[$key];
+    
+                $update_reservation= flight_reservation::where('reservation_id',$reservation_id)->update([
+                    'selling_price'=>$selling_amount,
+                    'purchased_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                ]);
+                $add_ticketing= individual_ticketing::where('reservation_id',$req->id)->update([
+                    'reservation_id'=>$reservation_id,
+                    'selling_price'=>$selling_amount,
+                    'buying_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                    'ticketing_type'=>$ticket_type,
+                ]);
+            }
+        }
+       
+        return redirect()->back()->with('success_msg', 'Ticket updated Successfully....');
+    }
     public function view_ticking_history()
     {
-        return view('admin.view_ticking_history');
+        
+        $group_ticketing = group_ticketing::with('grouping')->get();
+        $individual_ticketing = individual_ticketing::with('reservation.customer','reservation.flight.air_company')->get();
+        // dd($individual_ticketing);
+        return view('admin.view_ticking_history',compact('individual_ticketing','group_ticketing'));
     }
     public function view_reservations()
     {
@@ -2324,7 +2401,71 @@ class AdminController extends Controller
     }
     public function add_ticket()
     {
-        return view('admin.add_ticket');
+        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package','lodging','visa','flight.air_company','transport','extra_service','payment'])->get();
+       
+        $groupings = grouping::with(['members' => function ($query) {
+            $query->whereHas('reservation', function ($subQuery) {
+                $subQuery->where('service_type', 'flight');
+            })->with(['reservation.customer.Collaborator', 'reservation.customer.LinkedWith','reservation.flight.air_company']);
+        }])
+        ->whereHas('members.reservation', function ($query) {
+            $query->where('service_type', 'flight');
+        })
+        ->get();
+        return view('admin.add_ticket',compact(['groupings','reservations']));
+    }
+    public function submit_add_ticket(Request $req){
+        // dd($req);
+        
+        if($req->is_group=='Group'){
+            $add_ticketing= group_ticketing::create([
+                'grouping_id'=>$req->group_id,
+            ]);
+            foreach ($req->ticket_type as $key => $value) {
+                $reservation_id=$req->reservation_id[$key];
+    
+                $ticket_type=$req->ticket_type[$key];
+                $fee_amount=$req->fee_amount[$key];
+                $purchase_amount=$req->purchase_amount[$key];
+                $selling_amount=$req->selling_amount[$key];
+    
+                $update_reservation= flight_reservation::where('reservation_id',$reservation_id)->update([
+                    'selling_price'=>$selling_amount,
+                    'purchased_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                ]);
+                $add_reservation= group_ticketing::where('id',$add_ticketing->id)->update([
+                    'selling_price'=>$selling_amount,
+                    'buying_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                    'ticketing_type'=>$ticket_type,
+                ]);
+            }
+        }else{
+            foreach ($req->ticket_type as $key => $value) {
+                $reservation_id=$req->reservation_id[$key];
+    
+                $ticket_type=$req->ticket_type[$key];
+                $fee_amount=$req->fee_amount[$key];
+                $purchase_amount=$req->purchase_amount[$key];
+                $selling_amount=$req->selling_amount[$key];
+    
+                $update_reservation= flight_reservation::where('reservation_id',$reservation_id)->update([
+                    'selling_price'=>$selling_amount,
+                    'purchased_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                ]);
+                $add_ticketing= individual_ticketing::create([
+                    'reservation_id'=>$reservation_id,
+                    'selling_price'=>$selling_amount,
+                    'buying_price'=>$purchase_amount,
+                    'service_price'=>$fee_amount,
+                    'ticketing_type'=>$ticket_type,
+                ]);
+            }
+        }
+       
+        return redirect()->back()->with('success_msg', 'Ticket added Successfully....');
     }
     public function view_visa()
     {

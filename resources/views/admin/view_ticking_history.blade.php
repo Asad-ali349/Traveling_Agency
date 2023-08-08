@@ -78,18 +78,19 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    
+                                    @foreach($group_ticketing as $ticketing)
                                     <tr>
-                                       <td>{{'Ali Group'}}</td>
-                                       <td>{{'12-10-12'}}</td>
-                                       <td>{{'10-9-13'}}</td>--
-                                       <td>{{'15'}}</td>
+                                       <td>{{$ticketing->grouping?$ticketing->grouping->group_name:''}}</td>
+                                       <td>{{$ticketing->grouping?$ticketing->grouping->going_date:''}}</td>
+                                       <td>{{$ticketing->grouping?$ticketing->grouping->coming_date:''}}</td>--
+                                       <td>{{$ticketing->grouping?$ticketing->grouping->group_by:''}}</td>
                                        <td>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/individual_reservation_detail/')}}"><i class="fa fa-list"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/')}}"><i class="fa fa-edit"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/')}}"><i class="fa fa-trash"></i></a>
+                                          <!-- <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/individual_reservation_detail/'.$ticketing->grouping_id)}}"><i class="fa fa-list"></i></a> -->
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_ticketing/'.$ticketing->id.'/group')}}"><i class="fa fa-edit"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/'.$ticketing->id)}}"><i class="fa fa-trash"></i></a>
                                        </td>
                                     </tr>
+                                    @endforeach
                                  </tbody>
                               </table>
                               </div>
@@ -109,17 +110,18 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    
+                                    @foreach($individual_ticketing as $ticketing)
                                     <tr>
-                                       <td>{{'Ali'}}</td>
-                                       <td>{{'45555445646'}}</td>
-                                       <td>{{'Blue Air'}}</td>
+                                       <td>{{$ticketing->reservation->customer->first_name.' '.$ticketing->reservation->customer->last_name}}</td>
+                                       <td>{{$ticketing->reservation->customer->passport}}</td>
+                                       <td>{{$ticketing->reservation->flight->air_company->name}}</td>
                                        <td>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/individual_reservation_detail/')}}"><i class="fa fa-list"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_reservation/')}}"><i class="fa fa-edit"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/')}}"><i class="fa fa-trash"></i></a>
+                                          <!-- <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/individual_reservation_detail/')}}"><i class="fa fa-list"></i></a> -->
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/edit_ticketing/'.$ticketing->id.'/individual')}}"><i class="fa fa-edit"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_reservation/'.$ticketing->id)}}"><i class="fa fa-trash"></i></a>
                                        </td>
                                     </tr>
+                                    @endforeach
                                  </tbody>
                               </table>
                               </div>

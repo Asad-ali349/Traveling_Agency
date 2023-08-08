@@ -79,7 +79,7 @@
                                             <tbody id="customer_table">
                                               @foreach($group->members as $group_members)
                                                 <tr>
-                                                  <td><input type="checkbox" name="reservation_id[]" checked></td>
+                                                  <td><input type="checkbox" name="reservation_id[]" value="{{$group_members->reservation_id}}" checked></td>
                                                   <td class="m-2 p-2">{{$group_members->reservation->customer->first_name.''.$group_members->reservation->customer->last_name}}</td>
                                                   <td class="m-2 p-2">{{$group_members->reservation->customer->gender}}</td>
                                                   <td class="m-2 p-2">{{$group_members->reservation->customer->collaborator !=null ? $group_members->reservation->customer->collaborator->name :"No Collaborator"}}</td>
