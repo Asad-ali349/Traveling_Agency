@@ -126,6 +126,19 @@
                                 <label class="form-label" for="">Package Price For Infant:</label>
                                 <input class="form-control" id="infant_package" name="infant_package" type="text" placeholder="$" readonly>
                             </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label" for="">Package Price For Adult Buying:</label>
+                                <input class="form-control" id="adult_package_buying" name="adult_package_buying" type="hidden" placeholder="$" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="">Package Price For Child Buying:</label>
+                                <input class="form-control" id="child_package_buying" name="child_package_buying" type="hidden" placeholder="$" readonly >
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="">Package Price For Infant Buying:</label>
+                                <input class="form-control" id="infant_package_buying" name="infant_package_buying" type="hidden" placeholder="$" readonly>
+                            </div>
                             <div class="col-md-12 mt-4">
                             <center><input name="submit" class="btn btn-primary mt-4" type="submit" value="Add Package"></center>
                             </div>
@@ -195,15 +208,23 @@
             var visa_price_for_adult=0;
             var visa_price_for_child=0;
             var visa_price_for_infant=0
+            var visa_price_for_adult_buying=0;
+            var visa_price_for_child_buying=0;
+            var visa_price_for_infant_buying=0;
+
             if(visa_field != "" && visa_field!=null){
                 var filtered_visa=visa.filter((data)=>{
                     return data.id==visa_field
                 });
 
                 var selected_visa=filtered_visa[0].package_price;
+
                 var visa_price_for_adult=selected_visa.adult_selling;
+                var visa_price_for_adult_buying=selected_visa.adult_buying;
                 var visa_price_for_child=selected_visa.child_selling;
+                var visa_price_for_child_buying=selected_visa.child_buying;
                 var visa_price_for_infant=selected_visa.infant_selling;
+                var visa_price_for_infant_buying=selected_visa.infant_buying;
             }
             
             console.log({visa_price_for_adult,visa_price_for_child,visa_price_for_infant})
@@ -211,6 +232,9 @@
             var makah_lodging_adult=0;
             var makah_lodging_child=0; 
             var makah_lodging_infant=0;
+            var makah_lodging_adult_buying=0;
+            var makah_lodging_child_buying=0; 
+            var makah_lodging_infant_buying=0;
             if(makkah_lodging_field && makkah_room_type_field){
 
                 var filtered_loadging_makkah=visa_makkah.filter((data)=>{
@@ -221,18 +245,35 @@
                     makah_lodging_adult=filtered_loadging_makkah[0].price_for_package.room_two_selling_adult
                     makah_lodging_child=filtered_loadging_makkah[0].price_for_package.room_two_selling_child
                     makah_lodging_infant=filtered_loadging_makkah[0].price_for_package.room_two_selling_infant
+
+                    makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_package.room_two_buying_adult
+                    makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_package.room_two_buying_child
+                    makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_package.room_two_buying_infant
                 }else if(makkah_room_type_field=="room_for_three"){
                     makah_lodging_adult=filtered_loadging_makkah[0].price_for_package.room_three_selling_adult
                     makah_lodging_child=filtered_loadging_makkah[0].price_for_package.room_three_selling_child
                     makah_lodging_infant=filtered_loadging_makkah[0].price_for_package.room_three_selling_infant
+
+                    makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_package.room_three_buying_adult
+                    makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_package.room_three_buying_child
+                    makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_package.room_three_buying_infant
+
                 }else if(makkah_room_type_field=="room_for_four"){
                     makah_lodging_adult=filtered_loadging_makkah[0].price_for_package.room_four_selling_adult
                     makah_lodging_child=filtered_loadging_makkah[0].price_for_package.room_four_selling_child
                     makah_lodging_infant=filtered_loadging_makkah[0].price_for_package.room_four_selling_infant
+
+                    makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_package.room_four_buying_adult
+                    makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_package.room_four_buying_child
+                    makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_package.room_four_buying_infant
                 }else if(makkah_room_type_field=="room_for_five"){
                     makah_lodging_adult=filtered_loadging_makkah[0].price_for_package.room_five_selling_adult
                     makah_lodging_child=filtered_loadging_makkah[0].price_for_package.room_five_selling_child
                     makah_lodging_infant=filtered_loadging_makkah[0].price_for_package.room_five_selling_infant
+
+                    makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_package.room_five_buying_adult
+                    makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_package.room_five_buying_child
+                    makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_package.room_five_buying_infant
                 }
                 console.log({makah_lodging_adult,makah_lodging_child,makah_lodging_infant})
             }
@@ -242,6 +283,9 @@
             var madina_lodging_adult=0;
             var madina_lodging_child=0; 
             var madina_lodging_infant=0;
+            var madina_lodging_adult_buying=0;
+            var madina_lodging_child_buying=0; 
+            var madina_lodging_infant_buying=0;
             if(madina_lodging_field && madina_room_type_field){
 
                 var filtered_loadging_madina=visa_madina.filter((data)=>{
@@ -253,28 +297,43 @@
                     madina_lodging_adult=filtered_loadging_madina[0].price_for_package.room_two_selling_adult
                     madina_lodging_child=filtered_loadging_madina[0].price_for_package.room_two_selling_child
                     madina_lodging_infant=filtered_loadging_madina[0].price_for_package.room_two_selling_infant
+                    madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_package.room_two_buying_adult
+                    madina_lodging_child_buying=filtered_loadging_madina[0].price_for_package.room_two_buying_child
+                    madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_package.room_two_buying_infant
                 }else if(madina_room_type_field=="room_for_three"){
                     madina_lodging_adult=filtered_loadging_madina[0].price_for_package.room_three_selling_adult
                     madina_lodging_child=filtered_loadging_madina[0].price_for_package.room_three_selling_child
                     madina_lodging_infant=filtered_loadging_madina[0].price_for_package.room_three_selling_infant
+                    madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_package.room_three_buying_adult
+                    madina_lodging_child_buying=filtered_loadging_madina[0].price_for_package.room_three_buying_child
+                    madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_package.room_three_buying_infant
                 }else if(madina_room_type_field=="room_for_four"){
                     madina_lodging_adult=filtered_loadging_madina[0].price_for_package.room_four_selling_adult
                     madina_lodging_child=filtered_loadging_madina[0].price_for_package.room_four_selling_child
                     madina_lodging_infant=filtered_loadging_madina[0].price_for_package.room_four_selling_infant
+
+                    madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_package.room_four_buying_adult
+                    madina_lodging_child_buying=filtered_loadging_madina[0].price_for_package.room_four_buying_child
+                    madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_package.room_four_buying_infant
                 }else if(madina_room_type_field=="room_for_five"){
                     madina_lodging_adult=filtered_loadging_madina[0].price_for_package.room_five_selling_adult
                     madina_lodging_child=filtered_loadging_madina[0].price_for_package.room_five_selling_child
                     madina_lodging_infant=filtered_loadging_madina[0].price_for_package.room_five_selling_infant
+                    madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_package.room_five_buying_adult
+                    madina_lodging_child_buying=filtered_loadging_madina[0].price_for_package.room_five_buying_child
+                    madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_package.room_five_buying_infant
                 }
                 console.log({madina_lodging_adult,madina_lodging_child,madina_lodging_infant})
             }
             
             var ticket_selling=0;
+            var ticket_buying=0;
             if(ticket_field){
                 var filtered_ticket=tickets.filter((data)=>{
                     return data.id==ticket_field
                 });
                 ticket_selling=filtered_ticket[0].selling_price_for_package
+                ticket_buying=filtered_ticket[0].buying_price_for_package
             }
 
 
@@ -283,12 +342,20 @@
             var PriceForChild=parseFloat(visa_price_for_child)+parseFloat(makah_lodging_child)+parseFloat(madina_lodging_child)+parseFloat(ticket_selling);
             var PriceForInfant=parseFloat(visa_price_for_infant)+parseFloat(makah_lodging_infant)+parseFloat(madina_lodging_infant)+parseFloat(ticket_selling);
 
+            var PriceForAdultBuying=parseFloat(visa_price_for_adult_buying)+parseFloat(makah_lodging_adult_buying)+parseFloat(madina_lodging_adult_buying)+parseFloat(ticket_buying);
+            var PriceForChildBuying=parseFloat(visa_price_for_child_buying)+parseFloat(makah_lodging_child_buying)+parseFloat(madina_lodging_child_buying)+parseFloat(ticket_buying);
+            var PriceForInfantBuying=parseFloat(visa_price_for_infant_buying)+parseFloat(makah_lodging_infant_buying)+parseFloat(madina_lodging_infant_buying)+parseFloat(ticket_buying);
+
 
 
             
             $("#adult_package").val(PriceForAdult);
             $("#child_package").val(PriceForChild);
             $("#infant_package").val(PriceForInfant);
+
+            $("#adult_package_buying").val(PriceForAdultBuying);
+            $("#child_package_buying").val(PriceForChildBuying);
+            $("#infant_package_buying").val(PriceForInfantBuying);
 
 
             

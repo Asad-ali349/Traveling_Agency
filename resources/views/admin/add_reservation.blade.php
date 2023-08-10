@@ -91,6 +91,7 @@
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Room Type in Madina</label>
 															<select  class="form-control" name="room_type_madina" id="madina_room_type" onchange="cal_lodging_service_price()">
+															<option value="" >Select Room Type</option>
 															<option value="room_for_two">Room For 2</option>
 															<option value="room_for_three">Room For 3</option>
 															<option value="room_for_four">Room For 4</option>
@@ -99,11 +100,11 @@
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">From</label>
-															<input type="date" name="lodging_from_madina" id="" class="form-control"/>
+															<input type="date" name="lodging_from_madina" id="lodging_from_madina" class="form-control" onchange="madinaLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">To</label>
-															<input type="date" name="lodging_to_madina" id="" class="form-control"/>
+															<input type="date" name="lodging_to_madina" id="lodging_to_madina" class="form-control" onchange="madinaLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Hotel in Makkah</label>
@@ -126,23 +127,35 @@
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">From</label>
-															<input type="date" name="lodging_from_makkah" id="" class="form-control"/>
+															<input type="date" name="lodging_from_makkah" id="lodging_from_makkah" class="form-control" onchange="makkahLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">To</label>
-															<input type="date" name="lodging_to_makkah" id="" class="form-control"/>
+															<input type="date" name="lodging_to_makkah" id="lodging_to_makkah" class="form-control" onchange="makkahLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
-															<label class="form-label" for="">Length Of Stay</label>
-															<input type="number" name="loadging_length_stay" id="" class="form-control" placeholder="Length Of Stay"/>
+															<label class="form-label" for="">Madina Length Of Stay</label>
+															<input type="number" name="lodging_length_stay_madina" id="lodging_length_of_stay_madina" class="form-control" placeholder="Length Of Stay" readonly/>
+														</div>
+														<div class="col-md-4 mt-3">
+															<label class="form-label" for="">Makkah Length Of Stay</label>
+															<input type="number" name="lodging_length_stay_makkah" id="lodging_length_of_stay_makkah" class="form-control" placeholder="Length Of Stay" readonly />
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Madina Price</label>
-															<input type="text" name="loadging_madina_price" id="madina_price" class="form-control" placeholder="Madina Service Price" value="0" readonly/>
+															<input type="text" name="loadging_madina_price" id="madina_price" class="form-control" placeholder="Madina Service Price" value="0" readonly  />
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Makkah Price</label>
 															<input type="text" name="loadging_makkah_price" id="makkah_price" class="form-control" placeholder="Makkah Service Price"value="0" readonly/>
+														</div>
+														<div class="col-md-4 mt-3" style="display:none">
+															<label class="form-label" for="">Buying Madina Price</label>
+															<input type="text" name="loadging_madina_buying_price" id="madina_price_buying" class="form-control" placeholder="Madina Service Price" value="0" readonly/>
+														</div>
+														<div class="col-md-4 mt-3" style="display:none">
+															<label class="form-label" for="">Buyig Makkah Price</label>
+															<input type="text" name="loadging_makkah_buying_price" id="makkah_price_buying" class="form-control" placeholder="Makkah Service Price"value="0" readonly/>
 														</div>
 													</div>
 												</div>
@@ -172,19 +185,23 @@
 														
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">From</label>
-															<input type="date" name="from_package" id="" class="form-control"/>
+															<input type="date" name="from_package" id="from_package" class="form-control" onchange="packageLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">To</label>
-															<input type="date" name="to_package" id="" class="form-control"/>
+															<input type="date" name="to_package" id="to_package" class="form-control" onchange="packageLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Length Of Stay</label>
-															<input type="number" name="length_of_stay" id="" class="form-control" placeholder="Length Of Stay"/>
+															<input type="number" name="length_of_stay" id="package_length_of_stay" class="form-control" placeholder="Length Of Stay" readonly/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Service Price</label>
 															<input type="text" name="package_service_price" id="package_service_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
+														</div>
+														<div class="col-md-4 mt-3" style="display:none">
+															<label class="form-label" for="">Buying Service Price</label>
+															<input type="hidden" name="package_service_buying_price" id="package_service_buying_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
 														</div>
 													</div>
 												</div>
@@ -204,19 +221,20 @@
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">From</label>
-															<input type="date" name="from_visa" id="" class="form-control"/>
+															<input type="date" name="from_visa" id="from_visa" class="form-control" onchange="visaLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">To</label>
-															<input type="date" name="to_visa" id="" class="form-control"/>
+															<input type="date" name="to_visa" id="to_visa" class="form-control" onchange="visaLengthOfStay()"/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Length Of Stay</label>
-															<input type="number" name="visa_stay" id="" class="form-control" placeholder="Length Of Stay"/>
+															<input type="number" name="visa_stay" id="visa_length_of_stay" class="form-control" placeholder="Length Of Stay" readonly/>
 														</div>
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Service Price</label>
 															<input type="text" name="service_price" id="visa_service_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
+															<input type="hidden" name="service_buying_price" id="visa_service_buying_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
 														</div>
 													</div>
 												</div>
@@ -262,6 +280,7 @@
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Service Price</label>
 															<input type="text" name="transport_service_price" id="transport_service_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
+															<input type="hidden" name="transport_service_buying_price" id="transport_service_buying_price" class="form-control" placeholder="Service Price" placeholder="Service Price" value="0" readonly/>
 														</div>
 													</div>
 												</div>
@@ -392,6 +411,7 @@
 														<div class="col-md-4 mt-3">
 															<label class="form-label" for="">Service Price:</label>
 															<input type="text" name="extra_service_price" id="extra_service_price" class="form-control" placeholder="Service Price" name="extra_service_price" value="0" readonly/>
+															<input type="hidden" name="extra_service_buying_price" id="extra_service_buying_price" class="form-control" placeholder="Service Price" value="0" readonly/>
 														</div>
 													</div>
 												</div>
@@ -568,6 +588,7 @@
 					var customers=@json($customers);
 					var packages=@json($packages);
 					var price=0;
+					var buying_price=0;
 
 					var filtered_package=packages.filter((data)=>{
 						return data.id==package_field
@@ -579,14 +600,16 @@
 					var sex=filtered_customer[0].gender;
 					if(sex=="Adult"){
 						price=filtered_package[0].price_for_adult
+						buying_price=filtered_package[0].buying_price_for_adult
 					}else if(sex=="Child"){
 						price=filtered_package[0].price_for_child
-						
+						buying_price=filtered_package[0].buying_price_for_child
 					}else if(sex=="Infant"){
 						price=filtered_package[0].price_for_infant
+						buying_price=filtered_package[0].buying_price_for_infant
 					}
-
 					$('#package_service_price').val(price)
+					$('#package_service_buying_price').val(buying_price)
 					var extra_service=$('#extra_service_price').val();
 					var total=parseFloat(extra_service)+parseFloat(price);
 					$('#total_amount').val(total)
@@ -615,6 +638,9 @@
 					var makah_lodging_adult=0;
 					var makah_lodging_child=0; 
 					var makah_lodging_infant=0;
+					var makah_lodging_adult_buying=0;
+					var makah_lodging_child_buying=0; 
+					var makah_lodging_infant_buying=0;
 					if(makkah_lodging_field && makkah_room_type_field){
 
 						var filtered_loadging_makkah=lodgings_makkah.filter((data)=>{
@@ -625,18 +651,30 @@
 							makah_lodging_adult=filtered_loadging_makkah[0].price_for_individual.room_two_selling_adult
 							makah_lodging_child=filtered_loadging_makkah[0].price_for_individual.room_two_selling_child
 							makah_lodging_infant=filtered_loadging_makkah[0].price_for_individual.room_two_selling_infant
+							makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_individual.room_two_buying_adult
+							makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_individual.room_two_buying_child
+							makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_individual.room_two_buying_infant
 						}else if(makkah_room_type_field=="room_for_three"){
 							makah_lodging_adult=filtered_loadging_makkah[0].price_for_individual.room_three_selling_adult
 							makah_lodging_child=filtered_loadging_makkah[0].price_for_individual.room_three_selling_child
 							makah_lodging_infant=filtered_loadging_makkah[0].price_for_individual.room_three_selling_infant
+							makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_individual.room_three_buying_adult
+							makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_individual.room_three_buying_child
+							makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_individual.room_three_buying_infant
 						}else if(makkah_room_type_field=="room_for_four"){
 							makah_lodging_adult=filtered_loadging_makkah[0].price_for_individual.room_four_selling_adult
 							makah_lodging_child=filtered_loadging_makkah[0].price_for_individual.room_four_selling_child
 							makah_lodging_infant=filtered_loadging_makkah[0].price_for_individual.room_four_selling_infant
+							makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_individual.room_four_buying_adult
+							makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_individual.room_four_buying_child
+							makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_individual.room_four_buying_infant
 						}else if(makkah_room_type_field=="room_for_five"){
 							makah_lodging_adult=filtered_loadging_makkah[0].price_for_individual.room_five_selling_adult
 							makah_lodging_child=filtered_loadging_makkah[0].price_for_individual.room_five_selling_child
 							makah_lodging_infant=filtered_loadging_makkah[0].price_for_individual.room_five_selling_infant
+							makah_lodging_adult_buying=filtered_loadging_makkah[0].price_for_individual.room_five_buying_adult
+							makah_lodging_child_buying=filtered_loadging_makkah[0].price_for_individual.room_five_buying_child
+							makah_lodging_infant_buying=filtered_loadging_makkah[0].price_for_individual.room_five_buying_infant
 						}
 					}
 
@@ -645,6 +683,9 @@
 					var madina_lodging_adult=0;
 					var madina_lodging_child=0; 
 					var madina_lodging_infant=0;
+					var madina_lodging_adult_buying=0;
+					var madina_lodging_child_buying=0; 
+					var madina_lodging_infant_buying=0;
 					if(madina_lodging_field && madina_room_type_field){
 
 						var filtered_loadging_madina=lodgings_madina.filter((data)=>{
@@ -654,40 +695,61 @@
 							madina_lodging_adult=filtered_loadging_madina[0].price_for_individual.room_two_selling_adult
 							madina_lodging_child=filtered_loadging_madina[0].price_for_individual.room_two_selling_child
 							madina_lodging_infant=filtered_loadging_madina[0].price_for_individual.room_two_selling_infant
+							madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_individual.room_two_buying_adult
+							madina_lodging_child_buying=filtered_loadging_madina[0].price_for_individual.room_two_buying_child
+							madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_individual.room_two_buying_infant
 						}else if(madina_room_type_field=="room_for_three"){
 							madina_lodging_adult=filtered_loadging_madina[0].price_for_individual.room_three_selling_adult
 							madina_lodging_child=filtered_loadging_madina[0].price_for_individual.room_three_selling_child
 							madina_lodging_infant=filtered_loadging_madina[0].price_for_individual.room_three_selling_infant
+							madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_individual.room_three_buying_adult
+							madina_lodging_child_buying=filtered_loadging_madina[0].price_for_individual.room_three_buying_child
+							madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_individual.room_three_buying_infant
 						}else if(madina_room_type_field=="room_for_four"){
 							madina_lodging_adult=filtered_loadging_madina[0].price_for_individual.room_four_selling_adult
 							madina_lodging_child=filtered_loadging_madina[0].price_for_individual.room_four_selling_child
 							madina_lodging_infant=filtered_loadging_madina[0].price_for_individual.room_four_selling_infant
+							madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_individual.room_four_buying_adult
+							madina_lodging_child_buying=filtered_loadging_madina[0].price_for_individual.room_four_buying_child
+							madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_individual.room_four_buying_infant
 						}else if(madina_room_type_field=="room_for_five"){
 							madina_lodging_adult=filtered_loadging_madina[0].price_for_individual.room_five_selling_adult
 							madina_lodging_child=filtered_loadging_madina[0].price_for_individual.room_five_selling_child
 							madina_lodging_infant=filtered_loadging_madina[0].price_for_individual.room_five_selling_infant
+							madina_lodging_adult_buying=filtered_loadging_madina[0].price_for_individual.room_five_buying_adult
+							madina_lodging_child_buying=filtered_loadging_madina[0].price_for_individual.room_five_buying_child
+							madina_lodging_infant_buying=filtered_loadging_madina[0].price_for_individual.room_five_buying_infant
 						}
 					}
 					
 					var PriceForAdult=parseFloat(makah_lodging_adult)+parseFloat(madina_lodging_adult);
 					var PriceForChild=parseFloat(makah_lodging_child)+parseFloat(madina_lodging_child);
 					var PriceForInfant=parseFloat(makah_lodging_infant)+parseFloat(madina_lodging_infant);
+					var PriceForAdultBuying=parseFloat(makah_lodging_adult_buying)+parseFloat(madina_lodging_adult_buying);
+					var PriceForChildBuying=parseFloat(makah_lodging_child_buying)+parseFloat(madina_lodging_child_buying);
+					var PriceForInfantBuying=parseFloat(makah_lodging_infant_buying)+parseFloat(madina_lodging_infant_buying);
 					// console.log({PriceForAdult,PriceForChild,PriceForInfant})
 					if(sex=="Adult"){
 						$('#makkah_price').val(makah_lodging_adult)
 						$('#madina_price').val(madina_lodging_adult)
+						$('#makkah_price_buying').val(makah_lodging_adult_buying)
+						$('#madina_price_buying').val(madina_lodging_adult_buying)
 						var extra_service=$('#extra_service_price').val();
 						var total=parseFloat(extra_service)+parseFloat(makah_lodging_adult)+parseFloat(madina_lodging_adult);
 						$('#total_amount').val(total)
 					}else if(sex=="Child"){
 						$('#makkah_price').val(makah_lodging_child)
 						$('#madina_price').val(madina_lodging_child)
+						$('#makkah_price_buying').val(makah_lodging_child_buying)
+						$('#madina_price_buying').val(madina_lodging_child_buying)
 						var extra_service=$('#extra_service_price').val();
 						var total=parseFloat(extra_service)+parseFloat(makah_lodging_child)+parseFloat(madina_lodging_child);
 						$('#total_amount').val(total)
 					}else if(sex=="Infant"){
 						$('#makkah_price').val(makah_lodging_infant)
 						$('#madina_price').val(madina_lodging_infant)
+						$('#makkah_price_buying').val(makah_lodging_infant_buying)
+						$('#madina_price_buying').val(madina_lodging_infant_buying)
 						var extra_service=$('#extra_service_price').val();
 						var total=parseFloat(extra_service)+parseFloat(makah_lodging_infant)+parseFloat(madina_lodging_infant);
 						$('#total_amount').val(total)
@@ -706,6 +768,7 @@
 					var customers=@json($customers);
 					var extra_service=@json($extra_services);
 					var price=0;
+					var price_buying=0;
 
 					
 					var filtered_customer=customers.filter((data)=>{
@@ -719,24 +782,33 @@
 					if(sex=="Adult"){
 						if(extra_type_field=="round way"){
 							price=filtered_extra_service[0].service_price.adult_selling_round
+							price_buying=filtered_extra_service[0].service_price.adult_buying_round
 							
 						}else if(extra_type_field=="one way"){
 							price=filtered_extra_service[0].service_price.adult_selling_one
+							price_buying=filtered_extra_service[0].service_price.adult_buying_one
 						}
 					}else if(sex=="Child"){
 						if(extra_type_field=="round way"){
 							price=filtered_extra_service[0].service_price.child_selling_round
+							price_buying=filtered_extra_service[0].service_price.child_buying_round
 						}else if(extra_type_field=="one way"){
 							price=filtered_extra_service[0].service_price.child_selling_one
+							price_buying=filtered_extra_service[0].service_price.child_buying_one
 						}
 						
 					}else if(sex=="Infant"){
 						if(extra_type_field=="round way"){
 							price=filtered_extra_service[0].service_price.infant_selling_round
+							price_buying=filtered_extra_service[0].service_price.infant_buying_round
 						}else if(extra_type_field=="one way"){
 							price=filtered_extra_service[0].service_price.infant_selling_one
+							price_buying=filtered_extra_service[0].service_price.infant_buying_one
 						}
 					}
+
+
+					$('#extra_service_buying_price').val(price_buying)
 
 					if($("#servicetype").val()=='package'){
 						$('#extra_service_price').val(price)
@@ -764,10 +836,6 @@
 						var total=parseFloat(price);
 						$('#total_amount').val(total)
 					}
-
-
-					
-
 				}
 				
 			}
@@ -784,6 +852,7 @@
 					var customers=@json($customers);
 					var transport_services=@json($transports);
 					var price=0;
+					var price_buying=0;
 					
 					var filtered_customer=customers.filter((data)=>{
 						return data.id==customer_field
@@ -799,48 +868,60 @@
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.normal_morroco_buying_one
 								}
 							}
 						}else if(transport_country_field=="KSA"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.vip_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.vip_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.vip_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.vip_ksa_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.normal_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.normal_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.normal_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.normal_ksa_buying_one
 								}
 							}
 						}else if(transport_country_field=="BOTH"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.vip_ksa_selling_round+filtered_transport_service[0].price_for_adult.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.vip_ksa_buying_round+filtered_transport_service[0].price_for_adult.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.vip_ksa_selling_one+filtered_transport_service[0].price_for_adult.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.vip_ksa_buying_one+filtered_transport_service[0].price_for_adult.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_adult.normal_ksa_selling_round+filtered_transport_service[0].price_for_infant.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_adult.normal_ksa_buying_round+filtered_transport_service[0].price_for_infant.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_adult.normal_ksa_selling_one+filtered_transport_service[0].price_for_adult.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_adult.normal_ksa_buying_one+filtered_transport_service[0].price_for_adult.normal_morroco_buying_one
 								}
 							}
 						}
@@ -852,114 +933,144 @@
 						if(transport_country_field=="MAR"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.normal_morroco_buying_one
 								}
 							}
 						}else if(transport_country_field=="KSA"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.vip_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.vip_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.vip_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.vip_ksa_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.normal_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.normal_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.normal_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.normal_ksa_buying_one
 								}
 							}
 						}else if(transport_country_field=="BOTH"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.vip_ksa_selling_round+filtered_transport_service[0].price_for_child.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.vip_ksa_buying_round+filtered_transport_service[0].price_for_child.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.vip_ksa_selling_one+filtered_transport_service[0].price_for_child.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.vip_ksa_buying_one+filtered_transport_service[0].price_for_child.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
-									price=filtered_transport_service[0].service_price.adult_selling_round
+									price=filtered_transport_service[0].price_for_child.normal_ksa_selling_round+filtered_transport_service[0].price_for_infant.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_child.normal_ksa_buying_round+filtered_transport_service[0].price_for_infant.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.adult_selling_one
+									price=filtered_transport_service[0].price_for_child.normal_ksa_selling_one+filtered_transport_service[0].price_for_child.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_child.normal_ksa_buying_one+filtered_transport_service[0].price_for_child.normal_morroco_buying_one
 								}
 							}
 						}
+
+
+
+						
 					}else if(sex=="Infant"){
 						if(transport_country_field=="MAR"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_infant.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=filtered_transport_service[0].service_price.vip_morroco_selling_one
+									price=filtered_transport_service[0].price_for_infant.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_infant.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_infant.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.normal_morroco_buying_one
 								}
 							}
 						}else if(transport_country_field=="KSA"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_infant.vip_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.vip_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_infant.vip_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.vip_ksa_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
 									price=filtered_transport_service[0].price_for_infant.normal_ksa_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.normal_ksa_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
 									price=filtered_transport_service[0].price_for_infant.normal_ksa_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.normal_ksa_buying_one
 								}
 							}
 						}else if(transport_country_field=="BOTH"){
 							if(transport_type_field=="VIP"){
 								if(transport_trip_type_field=="Round way"){
-									price=parseFloat(filtered_transport_service[0].price_for_infant.vip_ksa_selling_round)+parseFloat(filtered_transport_service[0].price_for_infant.vip_morroco_selling_round)
+									price=filtered_transport_service[0].price_for_infant.vip_ksa_selling_round+filtered_transport_service[0].price_for_infant.vip_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.vip_ksa_buying_round+filtered_transport_service[0].price_for_infant.vip_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=parseFloat(filtered_transport_service[0].price_for_infant.vip_ksa_selling_one)+parseFloat(filtered_transport_service[0].price_for_infant.vip_morroco_selling_one)
+									price=filtered_transport_service[0].price_for_infant.vip_ksa_selling_one+filtered_transport_service[0].price_for_infant.vip_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.vip_ksa_buying_one+filtered_transport_service[0].price_for_infant.vip_morroco_buying_one
 								}
 							}else if(transport_type_field=="Normal"){
 								if(transport_trip_type_field=="Round way"){
-									price=parseFloat(filtered_transport_service[0].price_for_infant.normal_ksa_selling_round)+parseFloat(filtered_transport_service[0].price_for_infant.normal_morroco_selling_round)
+									price=filtered_transport_service[0].price_for_infant.normal_ksa_selling_round+filtered_transport_service[0].price_for_infant.normal_morroco_selling_round
+									price_buying=filtered_transport_service[0].price_for_infant.normal_ksa_buying_round+filtered_transport_service[0].price_for_infant.normal_morroco_buying_round
 							
 								}else if(transport_trip_type_field=="One Way"){
-									price=parseFloat(filtered_transport_service[0].price_for_infant.normal_ksa_selling_one)+parseFloat(filtered_transport_service[0].price_for_infant.normal_morroco_selling_one)
+									price=filtered_transport_service[0].price_for_infant.normal_ksa_selling_one+filtered_transport_service[0].price_for_infant.normal_morroco_selling_one
+									price_buying=filtered_transport_service[0].price_for_infant.normal_ksa_buying_one+filtered_transport_service[0].price_for_infant.normal_morroco_buying_one
 								}
 							}
 						}
+
+
+
 						
 					}
 
 					$('#transport_service_price').val(price)
+					$('#transport_service_buying_price').val(price_buying)
 					var extra_service=$('#extra_service_price').val();
 					var total=parseFloat(extra_service)+parseFloat(price);
 					$('#total_amount').val(total)
 				}
 
 			}
-
-
 			function cal_visa_service_price() {
 				var customer_field=$('#customer').val();
 				var visa_field=$('#visa_field').val();
@@ -967,6 +1078,7 @@
 					var customers=@json($customers);
 					var visas=@json($visas);
 					var price=0;
+					var price_buying=0;
 
 					var filtered_visa=visas.filter((data)=>{
 						return data.id==visa_field
@@ -978,14 +1090,18 @@
 					var sex=filtered_customer[0].gender;
 					if(sex=="Adult"){
 						price=filtered_visa[0].individual_price.adult_selling
+						price_buying=filtered_visa[0].individual_price.adult_buying
 					}else if(sex=="Child"){
 						price=filtered_visa[0].individual_price.child_selling
+						price_buying=filtered_visa[0].individual_price.child_buying
 						
 					}else if(sex=="Infant"){
 						price=filtered_visa[0].individual_price.infant_selling
+						price_buying=filtered_visa[0].individual_price.infant_buying
 					}
 
 					$('#visa_service_price').val(price)
+					$('#visa_service_buying_price').val(price_buying)
 					var extra_service=$('#extra_service_price').val();
 					var total=parseFloat(extra_service)+parseFloat(price);
 					$('#total_amount').val(total)
@@ -993,5 +1109,67 @@
 			}
 		</script>
 
+		<!-- Length of stay -->
+		<script>
+			function packageLengthOfStay() {
+				var from=$('#from_package').val()
+				var to=$('#to_package').val()
+				console.log({from,to})
+				if(from!=null && to!=null && from!='' && to!=''){
+					var timeDifference = new Date(to) - new Date(from);
+
+					// Convert milliseconds to days
+					var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+					// console.log("Difference in days: " + daysDifference);
+					$('#package_length_of_stay').val(daysDifference)
+				}
+
+			}
+			function madinaLengthOfStay() {
+				
+				var from=$('#lodging_from_madina').val()
+				var to=$('#lodging_to_madina').val()
+				console.log({from,to})
+				if(from!=null && to!=null && from!='' && to!=''){
+					var timeDifference = new Date(to) - new Date(from);
+
+					// Convert milliseconds to days
+					var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+					$('#lodging_length_of_stay_madina').val(daysDifference)
+				}
+
+			}
+			function makkahLengthOfStay() {
+				var from=$('#lodging_from_makkah').val()
+				var to=$('#lodging_to_makkah').val()
+				console.log({from,to})
+				if(from!=null && to!=null && from!='' && to!=''){
+					var timeDifference = new Date(to) - new Date(from);
+
+					// Convert milliseconds to days
+					var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+					$('#lodging_length_of_stay_makkah').val(daysDifference)
+				}
+
+			}
+			function visaLengthOfStay() {
+				var from=$('#from_visa').val()
+				var to=$('#to_visa').val()
+				console.log({from,to})
+				if(from!=null && to!=null && from!='' && to!=''){
+					var timeDifference = new Date(to) - new Date(from);
+
+					// Convert milliseconds to days
+					var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+					console.log("Difference in days: " + daysDifference);
+					$('#visa_length_of_stay').val(daysDifference)
+				}
+
+			}
+		</script>
 	</body>
 </html>

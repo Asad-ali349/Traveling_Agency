@@ -238,7 +238,7 @@ class AdminController extends Controller
     }
     public function submit_add_customer(Request $req)
     {
-        
+        // dd($req);
         $validator = Validator::make($req->all(),[
             'first_name'=>'required',
             'last_name'=>'required',
@@ -874,6 +874,7 @@ class AdminController extends Controller
                             'to_date'=>$req->to_package,
                             'length_of_stay'=>$req->length_of_stay,
                             'service_price'=>$req->package_service_price,
+                            'service_buying_price'=>$req->package_service_buying_price,
                         ]);
                         if($reservation_service){
                             $is_reservation_done=true;
@@ -893,7 +894,8 @@ class AdminController extends Controller
                     'room_type_makkah'=>'required',
                     'lodging_from_makkah'=>'required',
                     'lodging_to_makkah'=>'required',
-                    'loadging_length_stay'=>'required',
+                    'lodging_length_stay_madina'=>'required',
+                    'lodging_length_stay_makkah'=>'required',
                     'loadging_madina_price'=>'required',
                     'loadging_makkah_price'=>'required',
                     'payment_method'=>'required',
@@ -925,9 +927,12 @@ class AdminController extends Controller
                             'room_type_in_makkah'=>$req->room_type_makkah,
                             'from_date_makkah'=>$req->lodging_from_makkah,
                             'to_date_makkah'=>$req->lodging_to_makkah,
-                            'length_of_stay'=>$req->loadging_length_stay,
+                            'lodging_length_stay_madina'=>$req->lodging_length_stay_madina,
+                            'lodging_length_stay_makkah'=>$req->lodging_length_stay_makkah,
                             'madina_price'=>$req->loadging_madina_price,
                             'makkah_price'=>$req->loadging_makkah_price,
+                            'madina_buying_price'=>$req->loadging_madina_buying_price,
+                            'makkah_buying_price'=>$req->loadging_makkah_buying_price,
                         ]);
                         if($reservation_service){
                             $is_reservation_done=true;
@@ -968,6 +973,7 @@ class AdminController extends Controller
                             'to_date'=>$req->to_visa,
                             'length_of_stay'=>$req->visa_stay,
                             'service_price'=>$req->service_price,
+                            'service_buying_price'=>$req->service_buying_price,
                         ]);
                         if($reservation_service){
                             $is_reservation_done=true;
@@ -1051,7 +1057,8 @@ class AdminController extends Controller
                             'country'=>$req->transport_country,
                             'type'=>$req->transport_type,
                             'trip_type'=>$req->transport_trip_type,
-                            'service_price'=>$req->transport_service_price
+                            'service_price'=>$req->transport_service_price,
+                            'service_buying_price'=>$req->transport_service_buying_price
                         ]);
                         if($reservation_service){
                             $is_reservation_done=true;
@@ -1071,15 +1078,19 @@ class AdminController extends Controller
                     'advance_amount'=>$req->advance_amount,
                     'rest_amount'=>$req->rest_amount
                 ]);
-                $extra_service_detail=extra_service_for_reservation::create([
-                    'reservation_id'=>$reservation_id,
-                    'extra_service_id'=>$req->extra_service_name,
-                    'type'=>$req->extra_type,
-                    'trip_type'=>$req->extra_trip_type,
-                    'service_price'=>$req->extra_service_price
-                ]);
 
-                if($payment_details && $extra_service_detail){
+                if($req->extra_service_name!='' && $req->extra_service_name!=null){
+                    $extra_service_detail=extra_service_for_reservation::create([
+                        'reservation_id'=>$reservation_id,
+                        'extra_service_id'=>$req->extra_service_name,
+                        'type'=>$req->extra_type,
+                        'trip_type'=>$req->extra_trip_type,
+                        'service_price'=>$req->extra_service_price,
+                        'extra_service_buying_price'=>$req->extra_service_buying_price
+                    ]);
+                }
+
+                if($payment_details){
                     return redirect()->back()->with('success_msg',"Reservation Added Sucessfully");
                 }else{
                     return redirect()->back()->with('success_msg',"Reservation Added Sucessfully but extra service and payment detail are saved");
@@ -1504,7 +1515,9 @@ class AdminController extends Controller
     }
     public function compta_accounting()
     {
-        return view('admin.compta_accounting');
+        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_makkah','lodging.lodging_madina','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC')->get();
+        // dd($reservations[5]->customer);
+        return view('admin.compta_accounting',compact('reservations'));
     }
     public function services()
     {
@@ -1533,6 +1546,9 @@ class AdminController extends Controller
             'adult_package'=>'required',
             'child_package'=>'required',
             'infant_package'=>'required',
+            'adult_package_buying'=>'required',
+            'child_package_buying'=>'required',
+            'infant_package_buying'=>'required',
         ]);
 
         if($validator->fails())
@@ -1553,6 +1569,9 @@ class AdminController extends Controller
                 'price_for_adult'=>$req->adult_package,
                 'price_for_child'=>$req->child_package,
                 'price_for_infant'=>$req->infant_package,
+                'buying_price_for_adult'=>$req->adult_package_buying,
+                'buying_price_for_child'=>$req->child_package_buying,
+                'buying_price_for_infant'=>$req->infant_package_buying,
             ]);
             if($package_service){
                 return redirect()->back()->with('success_msg', 'Package Added Successfully....');

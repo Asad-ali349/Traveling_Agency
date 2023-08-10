@@ -129,7 +129,7 @@
                             <div class="col-md-4">
                               <label class="form-label" for="">Collaborator</label>
                                 <select  class="form-control select2" name="collaborator" id="collaborator"> 
-                                  <option >Select Collaborator</option>
+                                  <option value="">Select Collaborator</option>
                                   @foreach($collaborators as $collaborator)
                                     <option value="{{$collaborator->id}}">{{$collaborator->name}}</option>
                                   @endforeach
@@ -141,7 +141,7 @@
                             <div class="col-md-4">
                               <label class="form-label" for="">Linked With</label>
                                 <select  class="form-control select2" name="linked_with" id="linked_with"> 
-                                  <option >Select Link</option>
+                                  <option value="">Select Link</option>
                                   @foreach($customers as $customer)
                                   <option value="{{$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</option>
                                   @endforeach

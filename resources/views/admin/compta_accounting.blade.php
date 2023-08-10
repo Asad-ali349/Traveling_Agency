@@ -76,7 +76,7 @@
                                        <th>Full Name</th>
                                        <th>Reservation No</th>
                                        <th>Collaborator</th>
-                                       <th>Service Type</th>
+                                       <!-- <th>Service Type</th> -->
                                        <th>Service Name</th>
                                        <th>Buying Price</th>
                                        <th>Selling Price</th>
@@ -86,23 +86,99 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    @php 
+                                    $total_selling=0;
+                                    $total_buying=0;
+                                    $total_rest=0;
+                                    $total_profit=0;
+                                    @endphp
+                                    @foreach($reservations as $reservation)
                                     <tr>
-                                       <td>{{'20-2-2023'}}</td>
-                                       <td>{{'Hammad Asif'}}</td>
-                                       <td>{{'126945'}}</td>
-                                       <td>{{'Ali'}}</td>
-                                       <td>{{'VIP'}}</td>
-                                       <td>{{'Package'}}</td>
-                                       <td>{{'$1230'}}</td>
-                                       <td>{{'$987'}}</td>
-                                       <td>{{'$300'}}</td>
-                                       <td>{{'$200'}}</td>
+                                       <td>{{$reservation->created_at}}</td>
+                                       <td>{{$reservation->customer->first_name.' '.$reservation->customer->last_name}}</td>
+                                       <td>{{$reservation->reservation_no}}</td>
+                                       <td>{{$reservation->customer->Collaborator?$reservation->customer->Collaborator->first_name:'No Collaborator'}}</td>
+                                       <!-- <td>{{'VIP'}}</td> -->
+                                       <td>{{$reservation->service_type}}</td>
+                                       <td>
+                                          @php 
+                                             $buying=0;
+                                             if($reservation->service_type=='package')
+                                                $buying=$reservation->package->service_buying_price;
+                                             elseif($reservation->service_type=='lodging')
+                                                $buying=(int)$reservation->lodging->madina_buying_price+(int)$reservation->lodging->makkah_buying_price;
+                                             elseif($reservation->service_type=='visa')
+                                                $buying=$reservation->visa->service_buying_price;
+                                             elseif($reservation->service_type=='transport')
+                                                $buying=$reservation->transport->service_buying_price;
+                                             elseif($reservation->service_type=='flight')
+                                                $buying=$reservation->flight->purchased_price;
+
+                                             $total_buying+=$buying;
+                                          @endphp
+                                          {{$buying}}
+                                       </td>
+                                       <td>
+                                          @php
+                                          $selling=0;
+                                             if($reservation->service_type=='package')
+                                             $selling=$reservation->package->service_price;
+                                             elseif($reservation->service_type=='lodging')
+                                               
+                                                $selling=(int)$reservation->lodging->madina_price+(int)$reservation->lodging->makkah_price;
+                                                
+                                             elseif($reservation->service_type=='visa')
+                                               $selling=$reservation->visa->service_price;
+                                             elseif($reservation->service_type=='transport')
+                                                $selling=$reservation->transport->service_price;
+                                             elseif($reservation->service_type=='flight')
+                                                $selling=$reservation->flight->selling_price;
+                                             
+                                             $total_selling+=$selling;
+                                          @endphp
+                                          ${{$selling}}
+                                       </td>
+                                       <td>
+                                          @php 
+                                             $rest=0;
+                                             if($reservation->payment!=null){
+                                                $rest=$reservation->payment->rest_amount;
+                                             }
+                                             $total_rest+=$rest;
+                                          @endphp
+
+                                          ${{$rest}}
+                                       </td>
+                                       <td>
+                                          @php
+                                             $profit_amount = 0;
+
+                                             if ($reservation->service_type == 'package') {
+                                                $profit_amount = (int)$reservation->package->service_price - (int)$reservation->package->service_buying_price;
+                                             } elseif ($reservation->service_type == 'lodging') {
+                                                $sumlodgingselling = (int)$reservation->lodging->madina_price + (int)$reservation->lodging->makkah_price;
+                                                $sumlodgingbuying = (int)$reservation->lodging->madina_buying_price + (int)$reservation->lodging->makkah_buying_price;
+                                                $profit_amount = $sumlodgingselling - $sumlodgingbuying;
+                                             } elseif ($reservation->service_type == 'visa') {
+                                                $profit_amount = (int)$reservation->visa->service_price - (int)$reservation->visa->service_buying_price;
+                                             } elseif ($reservation->service_type == 'transport') {
+                                                $profit_amount = (int)$reservation->transport->service_price - (int)$reservation->transport->service_buying_price;
+                                             } elseif ($reservation->service_type == 'flight') {
+                                                $profit_amount = (int)$reservation->flight->selling_price - (int)$reservation->flight->purchased_price;
+                                             }
+
+                                             $total_profit+=$profit_amount;
+                                          @endphp
+
+                                          ${{$profit_amount}}
+                                       </td>
                                        <td>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_customer/')}}"><i class="fa fa-trash"></i></a>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/customer_detail/')}}"><i class="fa fa-list"></i></a>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/invoice/')}}"><i class="fa fa-print"></i></a>
                                        </td>
                                     </tr>
+                                    @endforeach
 
 
                                     <!-- Filter Model Start -->
@@ -155,19 +231,19 @@
                            <table width="100%" class="mt-3">
                                    <tr>
                                      <td ><h6 class="p-2 mb-0">Total Buying Price</h6></td>
-                                     <td class="p-2 mb-0">$20</td>
+                                     <td class="p-2 mb-0">${{$total_buying}}</td>
                                    </tr>
                                    <tr>
                                      <td><h6 class="p-2 mb-0">Total Selling Price</h6></td>
-                                     <td class="p-2 mb-0">$2</td>
+                                     <td class="p-2 mb-0">${{$total_selling}}</td>
                                    </tr>
                                    <tr>
                                      <td><h6 class="p-2 mb-0">Total Rest Amount</h6></td>
-                                     <td class="p-2 mb-0">$22</td>
+                                     <td class="p-2 mb-0">${{$total_rest}}</td>
                                    </tr>
                                    <tr>
                                      <td><h6 class="p-2 mb-0">Total Profit Amount</h6></td>
-                                     <td class="p-2 mb-0">$22</td>
+                                     <td class="p-2 mb-0">${{$total_profit}}</td>
                                    </tr>
                                  </table>
                            </div>
