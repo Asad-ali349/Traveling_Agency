@@ -91,8 +91,21 @@
                                        <td>{{$reservation->customer->first_name.' '.$reservation->customer->last_name}}</td>
                                        <td>{{$reservation->customer->LinkedWith!=null? $reservation->customer->LinkedWith->first_name.' '.$reservation->customer->LinkedWith->last_name : 'None'}}</td>
                                        <td>{{$reservation->customer->Collaborator?         $reservation->customer->Collaborator->name : 'None'}}</td>
-                                       <td>{{'Normal'}}</td>
                                        <td>{{$reservation->service_type}}</td>
+                                       <td>
+                                       @php 
+                                       $service_name="";
+                                       if($reservation->service_type=='package')
+                                          $service_name=$reservation->package->package_service->name;
+                                       elseif($reservation->service_type=='visa')
+                                          $service_name=$reservation->visa->visa_service->visa_name;
+                                       elseif($reservation->service_type=='transport')
+                                          $service_name=$reservation->transport->transport_service->name;
+                                       elseif($reservation->service_type=='flight')
+                                          $service_name=$reservation->flight->flight_service->name;
+                                       @endphp
+                                          {{$service_name}}
+                                       </td>
                                        <td>${{$reservation->payment->total_amount}}</td>
                                        <td>
                                           

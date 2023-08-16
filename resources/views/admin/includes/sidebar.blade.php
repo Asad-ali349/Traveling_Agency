@@ -48,17 +48,17 @@
                </li>
                
                
-               <li class="sidebar-list topbar-items">
+               <li class="sidebar-list ">
                   <a class="sidebar-link " href="{{url('admin/profile')}}"><i data-feather="user"></i><span>Profile</span></a>
                </li>
                <li class="sidebar-list">
                   <a class="sidebar-link " href="#"><i data-feather="globe"></i><span>Translation</span></a>
                </li>
-               <li class="sidebar-list topbar-items">
+               <li class="sidebar-list ">
                   <a class="sidebar-link " href="#"><i data-feather="settings"></i><span>Settings</span></a>
                </li>
                
-               <li class="sidebar-list mt-3 topbar-items">
+               <li class="sidebar-list mt-3 ">
                <form action="{{url('admin/logout')}}" method="POST" id="logout-form">
                       @csrf
                       <a onclick="logout()"><i data-feather="log-in"></i>Logout</a>

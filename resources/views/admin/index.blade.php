@@ -2,7 +2,7 @@
 <html lang="en">
   
 @include('admin.includes.head')
-  <body>
+  <body class="login_page">
     <!-- login page start-->
     <div class="container-fluid">
     @if(session('success_msg'))
@@ -19,18 +19,18 @@
         <div class="col-12 p-0">
           <div class="login-card">
             <div>
-              <div><center><img class="img-fluid for-light" src="{{asset('public/assets/images/logo/login.png')}}" width="300px" style="margin-bottom:20px" alt="looginpage"></center></div>
               <div class="login-main"> 
+                <div><center><img class="img-fluid for-light" src="{{asset('public/assets/images/logo/login.png')}}" width="300px" style="margin-bottom:20px" alt="looginpage"></center></div>
                 <form class="theme-form" action="{{url('/admin')}}" method='post'>
                   @csrf
-                  <h4>Sign in to account</h4>
-                  <p>Enter your email & password to login</p>
+                  <center><h4 class="mb-4">Sign in to account</h4></center>
+                  <!-- <p>Enter your email & password to login</p> -->
                   <div class="form-group">
-                    <label class="col-form-label">Email Address</label>
+                    <label class="col-form-label">User Email:</label>
                     <input class="form-control"  name="email" type="email" required="" placeholder="Test@gmail.com">
                   </div>
                   <div class="form-group">
-                    <label class="col-form-label">Password</label>
+                    <label class="col-form-label">Password:</label>
                     <div class="form-input position-relative">
                       <input class="form-control" type="password" name="password" required="" id="pwd" placeholder="*********">
                       <div class="show-hide"><span class="show" onclick="toggle_pass('pwd')"></span></div>
@@ -53,9 +53,17 @@
         </div>
       
       </div>
-     
+      <footer class="footer" style="background-color:transparent !important; color:white">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 footer-copyright text-center">
+              <p class="mb-0">Copyright 2023© All rights reserved. Developed by <b><a href="http://qubitars.com/" target="blank"> Qubitars</a></b></p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
-    @include('admin.includes.footer')
+    
     
      <!-- latest jquery-->
       <script src="{{asset('public/assets/js/jquery-3.5.1.min.js')}}"></script>

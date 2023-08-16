@@ -25,6 +25,11 @@
 	display:none !important;
 }
 
+.login_page{
+	background-image: url('../images/NEW_LOGIN_BACKGROUND.jpeg') !important;
+
+}
+
 .font-roboto {
 	font-family: Roboto, sans-serif
 }
@@ -24692,8 +24697,9 @@ footer {
 	-ms-flex-pack: center;
 	justify-content: center;
 	margin: 0 auto;
-	background: url("../images/login/login_bg.jpg");
+	background: url("../images/NEW_LOGIN_BACKGROUND.jpeg");
 	background-position: center;
+	background-size: cover;
 	padding: 30px 12px
 }
 

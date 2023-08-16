@@ -22,14 +22,14 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  <h3>Invoice</h3>
+                  <h3>Receipt</h3>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">
                     <i data-feather="home"></i></a></li>
                     <li class="breadcrumb-item">General Accounting</li>
-                    <li class="breadcrumb-item active">Invoice</li>
+                    <li class="breadcrumb-item active">Receipt</li>
                   </ol>
                 </div>
               </div>
@@ -60,10 +60,10 @@
                               </div>
                               <div class="col-sm-6">
                                 <div class="text-md-end text-xs-center">
-                                  <h3>Invoice</h3>
+                                  <h3>Receipt</h3>
 
                                   
-                                  <p style="color:grey"><b>Invoice Number:</b> <span style="color:#BC8E36"> {{date('d/Y')}}</span><br><b>Invoice Date:</b><span style="color:#BC8E36"> {{date('M d Y')}}</span><br><b>Operated by:</b> <span style="color:#BC8E36"> {{Auth::guard('admin')->user()->name}}</span></p>
+                                  <p style="color:grey"><b>Receipt Number:</b> <span style="color:#BC8E36"> {{date('d/Y')}}</span><br><b>Receipt Date:</b><span style="color:#BC8E36"> {{date('M d Y')}}</span><br><b>Operated by:</b> <span style="color:#BC8E36"> {{Auth::guard('admin')->user()->name}}</span></p>
                                 </div>
                                 <!-- End Title-->
                               </div>
@@ -225,12 +225,12 @@
                                   <td ><b>Taxes (MAD)</b></td>
                                   <td class="p-2 mb-0">
                                     @php
-                                    $tax=20;
+                                    $tax=0;
                                     if($reservation->payment->payment_method=='Credit Card'){
-                                      $tax=23;
+                                      $tax=3;
                                     }
                                     @endphp
-                                    {{((float)$reservation->payment->total_amount*20)/100;}}
+                                    {{((float)$reservation->payment->total_amount*$tax)/100;}}
                                   </td>
                                 </tr>
                                 <tr>

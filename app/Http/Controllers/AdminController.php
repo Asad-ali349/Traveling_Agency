@@ -1475,7 +1475,7 @@ class AdminController extends Controller
     }
     public function view_reservations()
     {
-        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package','lodging','visa','flight','transport','extra_service','payment'])->orderBy('id', 'DESC')->get();
+        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_service','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC')->get();
         // dd($reservations);
         return view('admin.view_reservations',compact('reservations'));
     }
@@ -2516,9 +2516,17 @@ class AdminController extends Controller
     {
         return view('admin.partners');
     }
-    public function invoice()
+    public function invoice($id)
     {
-        return view('admin.invoice_template');
+        $reservation=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_madina','lodging.lodging_makkah','visa.visa_service','flight.flight_service','transport.transport_service','extra_service.extra_service','payment'])->where('id',$id)->first();
+        // dd($reservation);
+        return view('admin.invoice_template',compact('reservation'));
+    }
+    public function receipt($id)
+    {
+        $reservation=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_madina','lodging.lodging_makkah','visa.visa_service','flight.flight_service','transport.transport_service','extra_service.extra_service','payment'])->where('id',$id)->first();
+        // dd($reservation);
+        return view('admin.receipt',compact('reservation'));
     }
 
 

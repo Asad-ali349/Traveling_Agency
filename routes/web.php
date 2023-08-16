@@ -120,5 +120,6 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('/admin/view_tickets','view_tickets');
     Route::get('/admin/view_extra_services','view_extra_services');
     Route::get('/admin/partners','partners');
-    Route::get('/admin/invoice','invoice');
+    Route::get('/admin/invoice/{id}','invoice');
+    Route::get('/admin/receipt/{id}','receipt');
 });

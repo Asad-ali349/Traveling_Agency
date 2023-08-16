@@ -34,14 +34,14 @@
                <div class="page-title">
                   <div class="row">
                      <div class="col-6">
-                        <h3>Compta Accounting</h3>
+                        <h3>General Accounting</h3>
                      </div>
                      <div class="col-6">
                         <ol class="breadcrumb">
                            <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">                                       
                               <i data-feather="home"></i></a>
                            </li>
-                           <li class="breadcrumb-item">Compta Accounting</li>
+                           <li class="breadcrumb-item">General Accounting</li>
                         </ol>
                      </div>
                   </div>
@@ -53,7 +53,7 @@
                      <div class="row">
                         <div class="col-6">
                            <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
-                              <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i class="fa fa-user"></i>Compta Accounting</a></li>
+                              <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i class="fa fa-user"></i>General Accounting</a></li>
                            </ul>
                         </div>
                         <div class="col-6">
@@ -116,7 +116,7 @@
 
                                              $total_buying+=$buying;
                                           @endphp
-                                          {{$buying}}
+                                          ${{$buying}}
                                        </td>
                                        <td>
                                           @php
@@ -175,7 +175,9 @@
                                        <td>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/delete_customer/')}}"><i class="fa fa-trash"></i></a>
                                           <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/customer_detail/')}}"><i class="fa fa-list"></i></a>
-                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/invoice/')}}"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/invoice/'.$reservation->id)}}"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-outline-primary btn-xs" href="{{url('/admin/receipt/'.$reservation->id)}}"><i class="fa fa-info-circle" style="font-size:13px"></i>
+</a>
                                        </td>
                                     </tr>
                                     @endforeach

@@ -80,7 +80,7 @@
                                  <tbody>
                                     @foreach($customers as $customer)
                                     <tr>
-                                       <td>{{$customer->first_name.''. $customer->last_name}}</td>
+                                       <td>{{$customer->first_name.' '. $customer->last_name}}</td>
                                        <td>{{$customer->phone}}</td>
                                        <td>{{$customer->passport}}</td>
                                        <td>{{$customer->id_card}}</td>
