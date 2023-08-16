@@ -80,7 +80,7 @@
                               <div class="media-body m-l-20">
                                 <p class="media-heading"><b>Customer Name:</b> <br>
                                 <span style="color:#BC8E36">{{$reservation->customer->first_name.' '.strtoupper($reservation->customer->last_name)}}</span></p>
-                                <p class="media-heading"><b><span style="color:#BC8E36">{{$reservation->customer->passport}}</span></b> <br><span style="color:#BC8E36">{{$reservation->customer->phone}}</span></p>
+                                <p class="media-heading"><b><span style="color:#BC8E36">{{$reservation->customer->id_card?$reservation->customer->id_card:$reservation->customer->passport}}</span></b> <br><span style="color:#BC8E36">{{$reservation->customer->phone}}</span></p>
                                 <!-- <h4 class="media-heading mt-3">Johan Deo</h4>
                                 <p>JohanDeo@gmail.com<br><span>City</span><br><span>555-555-5555</span></p> -->
                               </div>
@@ -125,6 +125,7 @@
                                 </tr>
                               </thead>  
                             <tbody>
+                                @if($reservation->service_type!='lodging')
                                 <tr>
                                   <td>
                                     @php 
@@ -174,6 +175,57 @@
                                     <p class="itemtext">{{$price}}</p>
                                   </td>
                                 </tr>
+                                @endif
+                                @if($reservation->service_type=='lodging')
+                                <tr>
+                                  <td>
+                                    @php 
+                                    $item=$reservation->lodging->lodging_madina->hotel_name;
+                                    @endphp
+                                    <label>{{'Madina '.$reservation->service_type.' - '.$item}}</label>
+                                  </td>
+                                  <td>
+                                    <p class="itemtext">1</p>
+                                  </td>
+                                  <td>
+                                    @php 
+                                      $price=$reservation->lodging->madina_price;
+                                    @endphp
+
+                                    <p class="itemtext">{{$price}}</p>
+                                  </td>
+                                  <td>
+                                    @php 
+                                      $price=$reservation->lodging->madina_price;
+                                    @endphp
+                                    <p class="itemtext">{{$price}}</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    @php 
+                                    $item=$reservation->lodging->lodging_makkah->hotel_name;
+                                    @endphp
+                                    <label>{{'Makkah '.$reservation->service_type.' - '.$item}}</label>
+                                  </td>
+                                  <td>
+                                    <p class="itemtext">1</p>
+                                  </td>
+                                  <td>
+                                    @php 
+                                      $price=$reservation->lodging->makkah_price;
+                                    @endphp
+
+                                    <p class="itemtext">{{$price}}</p>
+                                  </td>
+                                  <td>
+                                    @php 
+                                      $price=$reservation->lodging->makkah_price;
+                                    @endphp
+                                    <p class="itemtext">{{$price}}</p>
+                                  </td>
+                                </tr>
+                                @endif
                                 @if($reservation->extra_service!=null)
                                 <tr>
                                   <td>
@@ -358,7 +410,7 @@
                             <tbody>
                                 <tr>
                                   <td>
-                                    
+
                                     <label>{{$reservation->payment->payment_method}}</label>
                                   </td>
                                   <td>

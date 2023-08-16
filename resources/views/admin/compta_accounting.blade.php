@@ -187,7 +187,7 @@
                                     <div class="modal fade" id="exampleModalgetbootstrap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                       <div class="modal-content">
-                                        <form method="post" action="{{url('/edit_service')}}">
+                                        <form method="post" action="{{url('admin/compta_accounting')}}">
                                           @csrf
                                           <div class="modal-header">
                                             <h5 class="modal-title">Filter Options</h5>
@@ -201,12 +201,12 @@
                                               <input class="form-control"  name="to_date" type="date" placeholder="to Date"  >
                                               <label class="col-form-label" for="recipient-name">Service</label>
                                               <select name="service_name" id="" class="form-control select2">
-                                                <option value="">Select Service</option>
-                                                <option value="">Package</option>
-                                                <option value="">Lodging</option>
-                                                <option value="">Visa</option>
-                                                <option value="">Flight</option>
-                                                <option value="">Transport</option>
+                                                <option value="" >Select Service Type</option>
+                                                <option value="package">Package</option>
+                                                <option value="lodging">Lodging</option>
+                                                <option value="visa">VISA</option>
+                                                <option value="flight">Flight</option>
+                                                <option value="transport">Transport</option>
                                               </select>
                                             </div>
                                           </div>

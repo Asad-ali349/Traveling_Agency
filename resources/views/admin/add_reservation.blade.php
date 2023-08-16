@@ -426,7 +426,7 @@
 																<option value="">Select Payment Method</option>
 																<option value="Cash">Cash</option>
 																<option value="Bank Check">Bank Check</option>
-																<option value="Credit Card<">Credit Card</option>
+																<option value="Credit Card">Credit Card</option>
 																<option value="Bank Transfer">Bank Transfer</option>
 															</select>
 														</div>

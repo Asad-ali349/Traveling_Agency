@@ -255,73 +255,85 @@ class AdminController extends Controller
         {
             return redirect()->back()->with('error_msg', $validator->errors()->first());
         }else{
+            $customer=null;
+            // dd($req->cnic);
+           
+            if ($req->cnic !== "") {
+                $customer = Customer::where('id_card', $req->cnic)->first();
+            }
+            if ($customer === null && $req->passport !== "") {
+                $customer = Customer::where('passport', $req->passport)->first();
+            }
+            // dd($customer);
             
-            // dd($req->guardian_phone);
-            if($req->file('passport_file')!=null){
-                $passport_image=$req->file('passport_file')->store('passport_files');
-                $add_customer=customer::create([
-                    'first_name'=>$req->first_name,
-                    'last_name'=>$req->last_name,
-                    'sex'=>$req->sex,
-                    'gender'=>$req->gender,
-                    'phone'=>$req->phone,
-                    'dob'=>$req->dob,
-                    'id_card'=>$req->cnic,
-                    'passport'=>$req->passport,
-                    'passport_file'=>$passport_image,
-                    'passport_issue_date'=>$req->issue_date,
-                    'nationality'=>$req->nationality,
-                    'city'=>$req->city,
-                    'email'=>$req->email,
-                    'gaurdian_name'=>$req->guardian_name,
-                    'gaurdian_phone'=>$req->guardian_phone,
-                    'gaurdian_relation'=>$req->relation,
-                    'collaborator'=>$req->collaborator,
-                    'linked_with'=>$req->linked_with,
-                ]);
-                if($add_customer){
-                    
-                    if($req->submit=="Go to Reservation"){
-                        return redirect::route('add_reservation_with_id',['customer_id'=>$add_customer->id]);
+            if($customer===null ){
+                if($req->file('passport_file')!=null){
+                    $passport_image=$req->file('passport_file')->store('passport_files');
+                    $add_customer=customer::create([
+                        'first_name'=>$req->first_name,
+                        'last_name'=>$req->last_name,
+                        'sex'=>$req->sex,
+                        'gender'=>$req->gender,
+                        'phone'=>$req->phone,
+                        'dob'=>$req->dob,
+                        'id_card'=>$req->cnic,
+                        'passport'=>$req->passport,
+                        'passport_file'=>$passport_image,
+                        'passport_issue_date'=>$req->issue_date,
+                        'nationality'=>$req->nationality,
+                        'city'=>$req->city,
+                        'email'=>$req->email,
+                        'gaurdian_name'=>$req->guardian_name,
+                        'gaurdian_phone'=>$req->guardian_phone,
+                        'gaurdian_relation'=>$req->relation,
+                        'collaborator'=>$req->collaborator,
+                        'linked_with'=>$req->linked_with,
+                    ]);
+                    if($add_customer){
+                        
+                        if($req->submit=="Go to Reservation"){
+                            return redirect::route('add_reservation_with_id',['customer_id'=>$add_customer->id]);
+                        }else{
+                            return redirect::route('customer_list')->with('success_msg', 'Customer Added Successfully....');
+                        }
                     }else{
-                        return redirect()->back()->with('success_msg', 'Customer Added Successfully....');
+                        return redirect()->back()->with('error_msg', 'Unable To add Property...');
                     }
                 }else{
-                    return redirect()->back()->with('error_msg', 'Unable To add Property...');
+                    $add_customer=customer::create([
+                        'first_name'=>$req->first_name,
+                        'last_name'=>$req->last_name,
+                        'sex'=>$req->sex,
+                        'gender'=>$req->gender,
+                        'phone'=>$req->phone,
+                        'dob'=>$req->dob,
+                        'id_card'=>$req->cnic,
+                        'passport'=>$req->passport,
+                        'passport_issue_date'=>$req->issue_date,
+                        'nationality'=>$req->nationality,
+                        'city'=>$req->city,
+                        'email'=>$req->email,
+                        'gaurdian_name'=>$req->guardian_name,
+                        'gaurdian_phone'=>$req->guardian_phone,
+                        'gaurdian_relation'=>$req->relation,
+                        'collaborator'=>$req->collaborator,
+                        'linked_with'=>$req->linked_with,
+                    ]);
+                    if($add_customer){
+                        
+                        if($req->submit=="Go to Reservation"){
+                            return redirect::route('add_reservation_with_id',['customer_id'=>$add_customer->id]);
+
+                        }else{
+                            return redirect::route('customer_list')->with('success_msg', 'Customer Added Successfully....');
+                        }
+                    }else{
+                        return redirect()->back()->with('error_msg', 'Unable To add Customer...');
+                    }
                 }
             }else{
-                $add_customer=customer::create([
-                    'first_name'=>$req->first_name,
-                    'last_name'=>$req->last_name,
-                    'sex'=>$req->sex,
-                    'gender'=>$req->gender,
-                    'phone'=>$req->phone,
-                    'dob'=>$req->dob,
-                    'id_card'=>$req->cnic,
-                    'passport'=>$req->passport,
-                    'passport_issue_date'=>$req->issue_date,
-                    'nationality'=>$req->nationality,
-                    'city'=>$req->city,
-                    'email'=>$req->email,
-                    'gaurdian_name'=>$req->guardian_name,
-                    'gaurdian_phone'=>$req->guardian_phone,
-                    'gaurdian_relation'=>$req->relation,
-                    'collaborator'=>$req->collaborator,
-                    'linked_with'=>$req->linked_with,
-                ]);
-                if($add_customer){
-                    
-                    if($req->submit=="Go to Reservation"){
-                        return redirect::route('add_reservation_with_id',['customer_id'=>$add_customer->id]);
-
-                    }else{
-                        return redirect()->back()->with('success_msg', 'Customer Added Successfully....');
-                    }
-                }else{
-                    return redirect()->back()->with('error_msg', 'Unable To add Property...');
-                }
+                return redirect()->back()->with('error_msg', 'Customer already Exist...');
             }
-            
         }
 
     }
@@ -707,7 +719,8 @@ class AdminController extends Controller
                         'reservation_id'=>$reservation,
                     ]);
                 }
-                return redirect()->back()->with('success_msg', 'Group Added Successfully....');
+                return redirect::route('grouping_list')->with('success_msg', 'Group Added Successfully....');
+                // return redirect()->back()->with('success_msg', 'Group Added Successfully....');
             }else{
                 return redirect()->back()->with('error_msg', 'Unable To add Group   ...');
             }
@@ -1091,9 +1104,11 @@ class AdminController extends Controller
                 }
 
                 if($payment_details){
-                    return redirect()->back()->with('success_msg',"Reservation Added Sucessfully");
+                    return redirect::route('reservation_list')->with('success_msg', 'Reservation Added Sucessfully....');
+                    // return redirect()->back()->with('success_msg',"Reservation Added Sucessfully");
                 }else{
-                    return redirect()->back()->with('success_msg',"Reservation Added Sucessfully but extra service and payment detail are saved");
+                    return redirect::route('reservation_list')->with('success_msg', 'Reservation Added Sucessfully but extra service and payment detail are saved....');
+                    // return redirect()->back()->with('success_msg',"Reservation Added Sucessfully but extra service and payment detail are saved");
 
                 }
             }else{
@@ -1475,7 +1490,7 @@ class AdminController extends Controller
     }
     public function view_reservations()
     {
-        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_service','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC')->get();
+        $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_madina','lodging.lodging_makkah','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC')->get();
         // dd($reservations);
         return view('admin.view_reservations',compact('reservations'));
     }
@@ -1517,6 +1532,24 @@ class AdminController extends Controller
     {
         $reservations=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_makkah','lodging.lodging_madina','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC')->get();
         // dd($reservations[5]->customer);
+        return view('admin.compta_accounting',compact('reservations'));
+    }
+    public function filter_compta_accounting(Request $request)
+    {
+        $reservations_query=reservation::with(['customer.linkedWith','customer.Collaborator','package.package_service','lodging.lodging_makkah','lodging.lodging_madina','visa.visa_service','flight.flight_service','transport.transport_service','extra_service','payment'])->orderBy('id', 'DESC');
+        ;
+        if($request->from_date){
+            $reservations_query=$reservations_query->where('created_at','>=',$request->from_date);
+        }
+        if($request->to_date){
+            $reservations_query=$reservations_query->where('created_at','<=', $request->to_date);
+        }
+        if($request->service_name){
+            $reservations_query=$reservations_query->where('service_type', $request->service_name);
+        }
+
+        $reservations=$reservations_query->get();
+
         return view('admin.compta_accounting',compact('reservations'));
     }
     public function services()
@@ -2483,8 +2516,8 @@ class AdminController extends Controller
                 ]);
             }
         }
-       
-        return redirect()->back()->with('success_msg', 'Ticket added Successfully....');
+        return redirect::route('view_ticking_history')->with('success_msg', 'Ticket added Successfully....');
+        // return redirect()->back()->with('success_msg', 'Ticket added Successfully....');
     }
     public function view_visa()
     {

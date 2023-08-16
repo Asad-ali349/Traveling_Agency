@@ -103,6 +103,8 @@
                                           $service_name=$reservation->transport->transport_service->name;
                                        elseif($reservation->service_type=='flight')
                                           $service_name=$reservation->flight->flight_service->name;
+                                       elseif($reservation->service_type=='lodging')
+                                          $service_name=$reservation->lodging->lodging_madina->hotel_name.' & '.$reservation->lodging->lodging_makkah->hotel_name;
                                        @endphp
                                           {{$service_name}}
                                        </td>

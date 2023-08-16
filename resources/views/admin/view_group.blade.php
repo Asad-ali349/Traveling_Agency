@@ -79,7 +79,7 @@
                                  <tbody>
                                     @foreach($groups as $group)
                                     <tr>
-                                       <td>{{$group->group_name}}</td>
+                                       <td><a href="{{url('/admin/group_detail/'.$group->id)}}">{{$group->group_name}}</a></td>
                                        <td>{{$group->going_date}}</td>
                                        <td>{{$group->coming_date}}</td>
                                        <td>{{$group->group_by}}</td>
