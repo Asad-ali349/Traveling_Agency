@@ -13,6 +13,6 @@ class admin extends Authenticatable
     use HasFactory; 
     protected $table ='admin';
     protected $fillable=[
-        'id', 'name', 'email', 'password', 'phone', 'address','profile_image', 'created_at', 'updated_at'
+        'id', 'name', 'email', 'password', 'phone', 'address','profile_image','token', 'created_at', 'updated_at'
     ]; 
 }

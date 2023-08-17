@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   
+<!-- Mirrored from admin.pixelstrap.com/cuba/theme/login-sa-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Apr 2021 09:54:10 GMT -->
 @include('admin.includes.head')
-  <body class="login_page">
+  <body>
     <!-- login page start-->
     <div class="container-fluid">
     @if(session('success_msg'))
@@ -19,53 +20,43 @@
         <div class="col-12 p-0">
           <div class="login-card">
             <div>
+              <div><center><img class="img-fluid for-light" src="{{asset('public/assets/images/logo/login.png')}}" width="200px" style="margin-bottom:20px" alt="looginpage"></center></div>
               <div class="login-main"> 
-                <div><center><img class="img-fluid for-light" src="{{asset('public/assets/images/logo/login.png')}}" width="300px" style="margin-bottom:20px" alt="looginpage"></center></div>
-                <form class="theme-form" action="{{url('/admin')}}" method='post'>
+                <form class="theme-form"  method='post' action="{{url('admin/reset_password')}}"> 
                   @csrf
-                  <center><h4 class="mb-4">Sign in to account</h4></center>
-                  <!-- <p>Enter your email & password to login</p> -->
+                  <h4>Reset Password</h4>
                   <div class="form-group">
-                    <label class="col-form-label">User Email:</label>
-                    <input class="form-control"  name="email" type="email" required="" placeholder="Test@gmail.com">
-                  </div>
-                  <div class="form-group">
-                    <label class="col-form-label">Password:</label>
+                    <input type="hidden" value="{{$uid}}" name="id">
+                    <label class="col-form-label">New Password</label>
                     <div class="form-input position-relative">
-                      <input class="form-control" type="password" name="password" required="" id="pwd" placeholder="*********">
+                      <input class="form-control" type="password" name="new_pass" required="" placeholder="*********" id="pwd" minlength="8">
                       <div class="show-hide"><span class="show" onclick="toggle_pass('pwd')"></span></div>
                     </div>
                   </div>
-                  <div class="form-group mb-0">
-                    <div class="checkbox p-0">
-                      <input id="checkbox1" type="checkbox">
-                      <label class="text-muted" for="checkbox1">Remember password</label>
-                    </div><a class="link" href="{{url('admin/forgot_password')}}">Forgot password?</a>
-                    <div class="text-end mt-3">
-                      <button class="btn btn-primary btn-block w-100" type="submit">Sign in</button>
-                      
+                  <div class="form-group">
+                    <label class="col-form-label">Confirm Password</label>
+                    <div class="form-input position-relative">
+                      <input class="form-control" type="password" name="c_pass" required="" minlength="8" placeholder="*********" id="cpwd">
+                      <div class="show-hide"><span class="show" onclick="toggle_pass('cpwd')"></span></div>
                     </div>
                   </div>
+                  
+                  <div class="form-group mt-4 mb-0">
+                    <div class="text-end mt-3 mb-2">
+                        <button class="btn btn-primary btn-block w-100" type="submit">Reset</button>
+                    </div>
+                    <div class=" text-center mt-4 mb-2">
+                        <a href="{{url('/')}}" style="color:black !important">Back To Sign In</a>
+                    </div>
+                  </div>
+                  
                 </form>
               </div>
             </div>
           </div>
         </div>
-      
       </div>
-      <footer class="footer" style="background-color:transparent !important; color:white">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12 footer-copyright text-center">
-              <p class="mb-0">Copyright 2023© All rights reserved. Developed by <b><a href="http://qubitars.com/" target="blank"> Qubitars</a></b></p>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-    
-    
-     <!-- latest jquery-->
+      <!-- latest jquery-->
       <script src="{{asset('public/assets/js/jquery-3.5.1.min.js')}}"></script>
       <!-- Bootstrap js-->
       <script src="{{asset('public/assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
@@ -90,16 +81,13 @@
           )
           }
         });
-         function toggle_pass(id){
-
+        function toggle_pass(id){
           pwdtype=document.getElementById(id).type
-          
           if(pwdtype=='password'){
             document.getElementById(id).type='text'
           }else{
             document.getElementById(id).type='password'
           }
-          
         }
       </script>
       <script>
@@ -107,5 +95,6 @@
             $('#alert').hide('slow')
         }, 3000)
     </script>
+    </div>
   </body>
 </html>

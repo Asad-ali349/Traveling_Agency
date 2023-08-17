@@ -55,6 +55,52 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
         return redirect('admin/');
     }
+    public function forgot_password() {
+        return view('admin.forgot_password');
+    }
+    public function submit_forgot_password(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'email'=>'required|email', 
+        ]);
+
+        if($validator->fails())
+        {
+            return redirect()->back()->with('error_msg', $validator->errors()->first());
+        }else{
+            // dd($req);
+            $user=admin::where('email',$req->email)->first();
+            if($user){
+                $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                $random_string=substr(str_shuffle($str_result),0, 10);
+                $user->token=$random_string;
+                $user->save();
+                
+                
+                
+                $headers  = 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                $from = 'info@ahmedhousedeal.com'; // your email
+                $headers .= 'From: info@ahmedhousedeal.com'."\r\n".   // your email
+                            'Reply-To: info@ahmedhousedeal.com'. "\r\n" .  // your email
+                            'X-Mailer: PHP/' . phpversion();
+                $msg="Dear <b>$user->name</b>, Your request of password reset have received. Click the link to change the Password: <br>"."http://localhost/traveling_2/traveling/admin/reset_password/".$random_string;
+                $msg = wordwrap($msg, 70, "\r\n");
+                $mailsuccess=mail($user->email,"Password Reset",$msg,$headers);
+                
+                
+                if (!$mailsuccess) {
+                    $mailsuccess = error_get_last()['message'];
+                    return redirect()->back()->with('error_msg', $mailsuccess);
+                    
+                }else{
+                    return redirect()->back()->with('success_msg', " Check Your Email for Password Reset");
+                }
+            }else{
+                return redirect()->back()->with('error_msg', " User not found");
+            }
+        }
+    }
     public function index()
     {
         return view('admin.index');
@@ -84,49 +130,7 @@ class AdminController extends Controller
             }
         }
     }
-    public function submit_forgot_password(Request $req)
-    {
-        $validator = Validator::make($req->all(),[
-            'email'=>'required|email', 
-        ]);
-
-        if($validator->fails())
-        {
-            return redirect()->back()->with('error_msg', $validator->errors()->first());
-        }else{
-            // dd($req);
-            $user=admin::where('email',$req->email)->first();
-            if($user){
-                $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-                $random_string=substr(str_shuffle($str_result),0, 10);
-                $user->token=$random_string;
-                $user->save();
-                
-                
-                
-                $headers  = 'MIME-Version: 1.0' . "\r\n";
-                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                $from = 'info@ahmedhousedeal.com';
-                $headers .= 'From: info@ahmedhousedeal.com'."\r\n".
-                            'Reply-To: info@ahmedhousedeal.com'. "\r\n" .
-                            'X-Mailer: PHP/' . phpversion();
-                $msg="Dear <b>$user->name</b>, Your request of password reset have received. Click the link to change the Password: <br>"."http://ahmedhousedeal.com/ahmed_property/reset_password/".$random_string;
-                $msg = wordwrap($msg, 70, "\r\n");
-                $mailsuccess=mail($user->email,"Password Reset",$msg,$headers);
-                
-                
-                if (!$mailsuccess) {
-                    $mailsuccess = error_get_last()['message'];
-                    return redirect()->back()->with('error_msg', $mailsuccess);
-                    
-                }else{
-                    return redirect()->back()->with('success_msg', " Check Your Email for Password Reset");
-                }
-            }else{
-                return redirect()->back()->with('error_msg', " User not found");
-            }
-        }
-    }
+    
     public function profile()
     {
         $user_id=Auth::guard('admin')->user()->id;
@@ -2569,6 +2573,48 @@ class AdminController extends Controller
         $flight_reservation=flight_reservation::where('reservation_id',$id)->delete();
         $lodging_reservation=lodging_reservation::where('reservation_id',$id)->delete();
         $transport_reservation=transport_reservation::where('reservation_id',$id)->delete();
+    }
+    public function reset_password($token)
+    {
+        $user=admin::where("token",$token)->first();
+        if($user){
+            $uid=$user->id;
+            return view('admin.reset_password',compact('uid'));
+        }else{
+            return abort(403, 'Expired Link.');
+        }
+
+    }
+    public function submit_reset_password(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'id'=>'required',
+            'new_pass'=>'required',
+            'c_pass'=>'required',
+        ]);
+        if($validator->fails())
+        {
+            return redirect()->back()->with('error_msg', $validator->errors()->first());
+        }else{
+            if($req->c_pass==$req->new_pass){
+                // dd($req->new_pass);
+                $update_pass=admin::where('id',$req->id)->update([
+                    'password'=>Hash::make($req->new_pass),
+                    'token'=>'',
+                ]);
+    
+                if($update_pass){
+                    return redirect::to('admin/')->with('success_msg', " Password Changed Successfully");
+                }else{
+                    return redirect()->back()->with('error_msg', "Unable to change password");
+                }
+
+            }else{
+                return redirect()->back()->with('error_msg', "New password and confirm password doesn't matched");
+            }
+
+            
+        }
     }
 }
 

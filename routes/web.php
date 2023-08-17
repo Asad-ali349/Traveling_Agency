@@ -20,6 +20,10 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/admin',[AdminController::class,'index']);
 Route::post('/admin',[AdminController::class,'login']);
+Route::get('/admin/forgot_password',[AdminController::class,'forgot_password']);
+Route::post('/admin/forgot_password',[AdminController::class,'submit_forgot_password']);
+Route::get('/admin/reset_password/{token}',[AdminController::class,'reset_password']);
+Route::post('/admin/reset_password/',[AdminController::class,'submit_reset_password']);
 
 Route::controller(AdminController::class)->group(function (){
     Route::post('admin/logout','logout');

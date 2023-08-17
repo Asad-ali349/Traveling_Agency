@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2023 at 07:53 PM
+-- Generation Time: Aug 16, 2023 at 07:37 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -146,7 +146,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `first_name`, `last_name`, `sex`, `gender`, `phone`, `dob`, `id_card`, `passport`, `passport_issue_date`, `passport_file`, `nationality`, `city`, `email`, `gaurdian_name`, `gaurdian_phone`, `gaurdian_relation`, `collaborator`, `linked_with`, `created_at`, `updated_at`) VALUES
-(1, 'Hammad', 'Ali', 'Masculine', 'Adult', '123456789', '2023-08-30', NULL, '22222222222', '2023-08-31', 'passport_files/L8lIBKZOoxTCmS4aEmuW8CwujA8vdV25hjSzDTKL.png', 'Audrey', 'gujranwala', 'hammad@gmail.com', NULL, NULL, NULL, NULL, NULL, '2023-08-10 12:47:26', '2023-08-10 12:47:26');
+(1, 'Hammad', 'Ali', 'Masculine', 'Adult', '123456789', '2023-08-30', '1111', '123456789', '2023-08-31', 'passport_files/L8lIBKZOoxTCmS4aEmuW8CwujA8vdV25hjSzDTKL.png', 'Audrey', 'gujranwala', 'hammad@gmail.com', NULL, NULL, NULL, NULL, NULL, '2023-08-10 12:47:26', '2023-08-16 17:01:40'),
+(12, 'Hope', 'Carpenter', 'Faminine', 'Child', '+1 (401) 488-2697', '2006-07-22', 'Ut aliquam consequat', 'Consequat Sit inve', '1989-05-15', NULL, 'Est minima aut eos q', 'Et sint aliqua Qui', 'gecun@mailinator.com', 'Caesar Peters', '+1 (922) 857-5574', 'Rerum fugit corrupt', 2, 1, '2023-08-16 12:20:59', '2023-08-16 12:20:59'),
+(13, 'Ross', 'Ward', 'Faminine', 'Child', '+1 (623) 815-5931', '1997-01-18', 'Ipsam autem non volu', 'Nostrum quae nesciun', '1983-07-18', NULL, 'Soluta maiores excep', 'Fugiat aut harum nes', 'kekyboz@mailinator.com', 'Basil Barnes', '+1 (763) 215-5262', 'Nisi dolorum rerum e', 2, 12, '2023-08-16 12:21:28', '2023-08-16 12:21:28');
 
 -- --------------------------------------------------------
 
@@ -243,13 +245,6 @@ CREATE TABLE `flight_reservation` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `flight_reservation`
---
-
-INSERT INTO `flight_reservation` (`id`, `reservation_id`, `flight_id`, `from_airport`, `to_airport`, `trip_type`, `flight_type`, `air_company_id`, `departure_time`, `return_time`, `service_price`, `selling_price`, `purchased_price`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 'MARRAKECH AIRPORT (RAK)', 'RABAT AIRPORT (RBA)', 'One-way', 'Direct', '1', '2023-08-07', '2023-08-17', '100', '200', '100', '2023-08-10 12:48:36', '2023-08-10 12:51:39');
-
 -- --------------------------------------------------------
 
 --
@@ -314,13 +309,6 @@ CREATE TABLE `individual_ticketing` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `individual_ticketing`
---
-
-INSERT INTO `individual_ticketing` (`id`, `reservation_id`, `ticketing_type`, `selling_price`, `buying_price`, `service_price`, `created_at`, `updated_at`) VALUES
-(1, 2, 'direct', '200', '100', '100', '2023-08-10 12:51:39', '2023-08-10 12:51:39');
 
 -- --------------------------------------------------------
 
@@ -421,7 +409,7 @@ CREATE TABLE `lodging_service_price_for_individual` (
 --
 
 INSERT INTO `lodging_service_price_for_individual` (`id`, `lodging_service_id`, `room_two_buying_adult`, `room_two_selling_adult`, `room_two_buying_child`, `room_two_selling_child`, `room_two_buying_infant`, `room_two_selling_infant`, `room_three_buying_adult`, `room_three_selling_adult`, `room_three_buying_child`, `room_three_selling_child`, `room_three_buying_infant`, `room_three_selling_infant`, `room_four_buying_adult`, `room_four_selling_adult`, `room_four_buying_child`, `room_four_selling_child`, `room_four_buying_infant`, `room_four_selling_infant`, `room_five_buying_adult`, `room_five_selling_adult`, `room_five_buying_child`, `room_five_selling_child`, `room_five_buying_infant`, `room_five_selling_infant`, `created_at`, `updated_at`) VALUES
-(8, 4, '67', 'we', '78', '8', '96', '47', '345', '567', '7', '7', '252', '36', '6987', '89', '7', '78', '36', '396', '78', '4', '45', '32', '3', NULL, '2023-07-20 14:38:20', '2023-07-20 14:38:20'),
+(8, 4, '67', '15', '78', '8', '96', '47', '345', '567', '7', '7', '252', '36', '6987', '89', '7', '78', '36', '396', '78', '4', '45', '32', '3', NULL, '2023-07-20 14:38:20', '2023-08-16 17:35:52'),
 (9, 3, '65', '67', '90', '234', '65', '324', '34', '56', '567', '78', '86', '75', '12', '45', '56', '34', '44', '66', '76', '98', '75', '34', '77', '88', '2023-07-28 07:21:04', '2023-07-28 07:21:04');
 
 -- --------------------------------------------------------
@@ -489,13 +477,6 @@ CREATE TABLE `package_reservation` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `package_reservation`
---
-
-INSERT INTO `package_reservation` (`id`, `reservation_id`, `package_type`, `package_service_id`, `from_date`, `to_date`, `length_of_stay`, `service_price`, `service_buying_price`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Economy', 3, '2023-08-01', '2023-08-04', '3', '1265', '1000', '2023-08-10 12:48:00', '2023-08-10 17:50:22');
-
 -- --------------------------------------------------------
 
 --
@@ -548,14 +529,6 @@ CREATE TABLE `payment_detail_for_reservation` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `payment_detail_for_reservation`
---
-
-INSERT INTO `payment_detail_for_reservation` (`id`, `reservation_id`, `payment_method`, `total_amount`, `advance_amount`, `rest_amount`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Cash', '1265', '1000', '265', '2023-08-10 12:48:00', '2023-08-10 12:48:00'),
-(2, 2, NULL, '0', NULL, '0', '2023-08-10 12:48:36', '2023-08-10 12:48:36');
-
 -- --------------------------------------------------------
 
 --
@@ -572,14 +545,6 @@ CREATE TABLE `reservation` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`id`, `reservation_no`, `customer_id`, `service_type`, `reservation_status`, `going_date`, `created_at`, `updated_at`) VALUES
-(1, '100823174800', 1, 'package', '1', '2023-08-01', '2023-08-10 12:48:00', '2023-08-10 12:48:00'),
-(2, '100823174836', 1, 'flight', '0', '2023-08-07', '2023-08-10 12:48:36', '2023-08-10 12:48:36');
 
 -- --------------------------------------------------------
 
@@ -1093,7 +1058,7 @@ ALTER TABLE `collaborator`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `extra_service`
@@ -1117,7 +1082,7 @@ ALTER TABLE `extra_service_price`
 -- AUTO_INCREMENT for table `flight_reservation`
 --
 ALTER TABLE `flight_reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `grouping`
@@ -1141,7 +1106,7 @@ ALTER TABLE `group_ticketing`
 -- AUTO_INCREMENT for table `individual_ticketing`
 --
 ALTER TABLE `individual_ticketing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lodging_reservation`
@@ -1171,7 +1136,7 @@ ALTER TABLE `lodging_service_price_for_package`
 -- AUTO_INCREMENT for table `package_reservation`
 --
 ALTER TABLE `package_reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `package_service`
@@ -1183,13 +1148,13 @@ ALTER TABLE `package_service`
 -- AUTO_INCREMENT for table `payment_detail_for_reservation`
 --
 ALTER TABLE `payment_detail_for_reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ticket_service`
